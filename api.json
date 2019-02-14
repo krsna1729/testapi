@@ -1,0 +1,24 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "A Simple Test API",
+    "title": "testapi",
+    "version": "v1"
+  },
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/",
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Get client profile",
+        "responses": {
+          "200": {
+            "description": "Success response"
+          }
+        }
+      }
+    }
+  }
+}
