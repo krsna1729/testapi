@@ -6,6 +6,9 @@ import (
 	"log"
 	"os"
 
+	"net/http"
+	_ "net/http/pprof"
+
 	loads "github.com/go-openapi/loads"
 	flags "github.com/jessevdk/go-flags"
 	"github.com/mcastelino/testapi/restapi"
@@ -49,6 +52,10 @@ func main() {
 	}
 
 	server.ConfigureAPI()
+
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
 
 	if err := server.Serve(); err != nil {
 		log.Fatalln(err)
