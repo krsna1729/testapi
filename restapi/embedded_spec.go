@@ -18,6 +18,12 @@ var (
 
 func init() {
 	SwaggerJSON = json.RawMessage([]byte(`{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "schemes": [
     "https"
   ],
@@ -34,14 +40,102 @@ func init() {
         "summary": "Get client profile",
         "responses": {
           "200": {
-            "description": "Success response"
+            "description": "The instance information",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          },
+          "default": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
+        }
+      }
+    },
+    "/actions": {
+      "put": {
+        "summary": "Creates a asynchronous action.",
+        "operationId": "createAsyncAction",
+        "parameters": [
+          {
+            "name": "info",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ActionInfo"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The update was successful"
+          },
+          "400": {
+            "description": "The action cannot be executed due to bad input",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ActionInfo": {
+      "description": "Variant wrapper containing the real action.",
+      "type": "object",
+      "required": [
+        "action_type"
+      ],
+      "properties": {
+        "action_type": {
+          "description": "Enumeration indicating what type of action is contained in the payload",
+          "type": "string",
+          "enum": [
+            "RunCommand",
+            "RunAPI"
+          ]
+        },
+        "payload": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "A description of the error condition",
+          "type": "string"
+        }
+      }
+    },
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "A description of the application",
+          "type": "string"
         }
       }
     }
   }
 }`))
 	FlatSwaggerJSON = json.RawMessage([]byte(`{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "schemes": [
     "https"
   ],
@@ -58,8 +152,90 @@ func init() {
         "summary": "Get client profile",
         "responses": {
           "200": {
-            "description": "Success response"
+            "description": "The instance information",
+            "schema": {
+              "$ref": "#/definitions/Profile"
+            }
+          },
+          "default": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
           }
+        }
+      }
+    },
+    "/actions": {
+      "put": {
+        "summary": "Creates a asynchronous action.",
+        "operationId": "createAsyncAction",
+        "parameters": [
+          {
+            "name": "info",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ActionInfo"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The update was successful"
+          },
+          "400": {
+            "description": "The action cannot be executed due to bad input",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ActionInfo": {
+      "description": "Variant wrapper containing the real action.",
+      "type": "object",
+      "required": [
+        "action_type"
+      ],
+      "properties": {
+        "action_type": {
+          "description": "Enumeration indicating what type of action is contained in the payload",
+          "type": "string",
+          "enum": [
+            "RunCommand",
+            "RunAPI"
+          ]
+        },
+        "payload": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "A description of the error condition",
+          "type": "string"
+        }
+      }
+    },
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "description": "A description of the application",
+          "type": "string"
         }
       }
     }

@@ -37,8 +37,8 @@ func (a *Client) Get(params *GetParams) (*GetOK, error) {
 		ID:                 "Get",
 		Method:             "GET",
 		PathPattern:        "/",
-		ProducesMediaTypes: []string{""},
-		ConsumesMediaTypes: []string{""},
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
 		Schemes:            []string{"https"},
 		Params:             params,
 		Reader:             &GetReader{formats: a.formats},
@@ -49,6 +49,34 @@ func (a *Client) Get(params *GetParams) (*GetOK, error) {
 		return nil, err
 	}
 	return result.(*GetOK), nil
+
+}
+
+/*
+CreateAsyncAction creates a asynchronous action
+*/
+func (a *Client) CreateAsyncAction(params *CreateAsyncActionParams) (*CreateAsyncActionNoContent, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewCreateAsyncActionParams()
+	}
+
+	result, err := a.transport.Submit(&runtime.ClientOperation{
+		ID:                 "createAsyncAction",
+		Method:             "PUT",
+		PathPattern:        "/actions",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &CreateAsyncActionReader{formats: a.formats},
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return result.(*CreateAsyncActionNoContent), nil
 
 }
 

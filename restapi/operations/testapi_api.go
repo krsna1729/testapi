@@ -40,6 +40,9 @@ func NewTestapiAPI(spec *loads.Document) *TestapiAPI {
 		GetHandler: GetHandlerFunc(func(params GetParams) middleware.Responder {
 			return middleware.NotImplemented("operation Get has not yet been implemented")
 		}),
+		CreateAsyncActionHandler: CreateAsyncActionHandlerFunc(func(params CreateAsyncActionParams) middleware.Responder {
+			return middleware.NotImplemented("operation CreateAsyncAction has not yet been implemented")
+		}),
 	}
 }
 
@@ -73,6 +76,8 @@ type TestapiAPI struct {
 
 	// GetHandler sets the operation handler for the get operation
 	GetHandler GetHandler
+	// CreateAsyncActionHandler sets the operation handler for the create async action operation
+	CreateAsyncActionHandler CreateAsyncActionHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -138,6 +143,10 @@ func (o *TestapiAPI) Validate() error {
 
 	if o.GetHandler == nil {
 		unregistered = append(unregistered, "GetHandler")
+	}
+
+	if o.CreateAsyncActionHandler == nil {
+		unregistered = append(unregistered, "CreateAsyncActionHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -242,6 +251,11 @@ func (o *TestapiAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"][""] = NewGet(o.context, o.GetHandler)
+
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/actions"] = NewCreateAsyncAction(o.context, o.CreateAsyncActionHandler)
 
 }
 

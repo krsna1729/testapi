@@ -1,0 +1,75 @@
+swagger: '2.0'
+info:
+  description: A Simple Test API
+  title: testapi
+  version: v1
+schemes:
+  - https
+basePath: /
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+paths:
+  /:
+    get:
+      summary: Get client profile
+      responses:
+        200:
+          description: The instance information
+          schema:
+            $ref: "#/definitions/Profile"
+        default:
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/Error"
+  /actions:
+    put:
+      summary: Creates a asynchronous action.
+      operationId: createAsyncAction
+      parameters:
+      - name: info
+        in: body
+        required: true
+        schema:
+          $ref: "#/definitions/ActionInfo"
+      responses:
+        204:
+          description: The update was successful
+        400:
+          description: The action cannot be executed due to bad input
+          schema:
+            $ref: "#/definitions/Error"
+        default:
+          description: Internal Server Error
+          schema:
+            $ref: "#/definitions/Error"  
+definitions:
+  Profile:
+    type: object
+    properties:
+      message:
+        type: string
+        description: A description of the application
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+        description: A description of the error condition
+  ActionInfo:
+    type: object
+    description:
+      Variant wrapper containing the real action.
+    required:
+      - action_type
+    properties:
+      action_type:
+        description: Enumeration indicating what type of action is contained in the payload
+        type: string
+        enum:
+        - RunCommand
+        - RunAPI
+      payload:
+        type: string
