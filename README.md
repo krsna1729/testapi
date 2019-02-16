@@ -12,14 +12,26 @@ docker build -t test-api-server:latest .
 
 ## Launch the server with profiling enabled
 ```
-docker run --rm --name=myserver -p 8888:8888 -p 6060:6060 test-api-server
+docker run --rm --net=host --name=myserver test-api-server
 ```
 
 ## Test it
 
+Run zipkin to collect and visulize the traces
+```
+docker run -d -p 9410-9411:9410-9411 --name=zipkin openzipkin/zipkin:1.12.0
+```
+
+Invoke the service
 ```
 docker cp myserver:/sslcerts/test.crt /tmp
-curl --cacert /tmp/test.crt https://127.0.0.1:8888
+curl --cacert /tmp/test.crt https://127.0.0.1:8888/
+ab -n 100000 -c 1000 https://127.0.0.1:8888/
+```
+
+Visualize the results
+```
+firefox http://localhost:9411/
 ```
 
 Note: The profiling information is available at http://localhost:6060/debug/pprof/

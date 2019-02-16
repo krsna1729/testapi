@@ -8,12 +8,33 @@ import (
 	_ "net/http/pprof"
 
 	loads "github.com/go-openapi/loads"
+	"github.com/go-openapi/runtime/middleware"
 	flags "github.com/jessevdk/go-flags"
+	"github.com/mcastelino/testapi/models"
 	"github.com/mcastelino/testapi/restapi"
 	"github.com/mcastelino/testapi/restapi/operations"
 )
 
+const (
+	pprofURL = "0.0.0.0:6060"
+)
+
+func getParams(params operations.GetParams) middleware.Responder {
+	response, err := os.Hostname()
+	if err != nil {
+		return operations.NewGetDefault(500).WithPayload(&models.Error{
+			Message: "failed to retrieve profile",
+		})
+	}
+
+	return operations.NewGetOK().WithPayload(&models.Profile{response})
+}
+
 func main() {
+	// For pprof
+	go func() {
+		log.Println(http.ListenAndServe(pprofURL, nil))
+	}()
 
 	swaggerSpec, err := loads.Embedded(restapi.SwaggerJSON, restapi.FlatSwaggerJSON)
 	if err != nil {
@@ -46,11 +67,10 @@ func main() {
 		os.Exit(code)
 	}
 
-	server.ConfigureAPI()
+	/* Setup the handlers */
+	api.GetHandler = operations.GetHandlerFunc(getParams)
 
-	go func() {
-		log.Println(http.ListenAndServe("0.0.0.0:6060", nil))
-	}()
+	server.ConfigureAPI()
 
 	if err := server.Serve(); err != nil {
 		log.Fatalln(err)

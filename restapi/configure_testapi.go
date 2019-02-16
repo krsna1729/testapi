@@ -4,13 +4,23 @@ package restapi
 
 import (
 	"crypto/tls"
+	"log"
 	"net/http"
 
 	errors "github.com/go-openapi/errors"
 	runtime "github.com/go-openapi/runtime"
-	middleware "github.com/go-openapi/runtime/middleware"
+	"github.com/opentracing-contrib/go-stdlib/nethttp"
+	jaeger "github.com/uber/jaeger-client-go"
+	"github.com/uber/jaeger-client-go/transport/zipkin"
 
 	"github.com/mcastelino/testapi/restapi/operations"
+)
+
+const (
+	//TODO: The zipkin host needs to come from the env variable
+	//The kubernetes pod spec will include this address
+	//zipkinURL = "http://zipkin:9411/api/v1/spans"
+	zipkinURL = "http://localhost:9411/api/v1/spans"
 )
 
 //go:generate swagger generate server --target ../../testapi --name Testapi --spec ../api.json
@@ -32,10 +42,6 @@ func configureAPI(api *operations.TestapiAPI) http.Handler {
 	api.JSONConsumer = runtime.JSONConsumer()
 
 	api.JSONProducer = runtime.JSONProducer()
-
-	api.GetHandler = operations.GetHandlerFunc(func(params operations.GetParams) middleware.Responder {
-		return middleware.NotImplemented("operation .Get has not yet been implemented")
-	})
 
 	api.ServerShutdown = func() {}
 
@@ -63,5 +69,30 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	return handler
+	// Jaeger tracer can be initialized with a transport that will
+	// report tracing Spans to a Zipkin backend
+	transport, err := zipkin.NewHTTPTransport(
+		zipkinURL,
+		zipkin.HTTPBatchSize(1),
+		zipkin.HTTPLogger(jaeger.StdLogger),
+	)
+	if err != nil {
+		log.Fatalf("Cannot initialize HTTP transport: %v", err)
+	}
+
+	// create Jaeger tracer
+	//tracer, closer := jaeger.NewTracer(
+	tracer, _ := jaeger.NewTracer(
+		"server",                     //TODO: Should be unique per instance of the app (FQDN)
+		jaeger.NewConstSampler(true), // sample all traces
+		jaeger.NewRemoteReporter(transport),
+	)
+
+	/* TODO
+	// Close the tracer to guarantee that all spans that could
+	// be still buffered in memory are sent to the tracing backend
+	defer closer.Close()
+	*/
+
+	return nethttp.Middleware(tracer, handler)
 }
