@@ -30,6 +30,19 @@ func getParams(params operations.GetParams) middleware.Responder {
 	return operations.NewGetOK().WithPayload(&models.Profile{response})
 }
 
+func createAsyncAction(params operations.CreateAsyncActionParams) middleware.Responder {
+	switch *params.Info.ActionType {
+	case "RunCommand":
+		//TODO: run the actual command to generate local load
+	case "RunAPI":
+		//TODO: Invoke the downstream API
+	default:
+		return operations.NewCreateAsyncActionBadRequest()
+	}
+
+	return operations.NewCreateAsyncActionDefault(500)
+}
+
 func main() {
 	// For pprof
 	go func() {
@@ -69,7 +82,7 @@ func main() {
 
 	/* Setup the handlers */
 	api.GetHandler = operations.GetHandlerFunc(getParams)
-
+	api.CreateAsyncActionHandler = operations.CreateAsyncActionHandlerFunc(createAsyncAction)
 	server.ConfigureAPI()
 
 	if err := server.Serve(); err != nil {
