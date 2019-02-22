@@ -22,10 +22,11 @@ import (
 	"os"
 	"time"
 
+	"github.com/gorilla/mux"
 	"go.opencensus.io/exporter/prometheus"
 	"go.opencensus.io/exporter/zipkin"
 	"go.opencensus.io/plugin/ochttp"
-	"go.opencensus.io/stats"
+	"go.opencensus.io/plugin/ochttp/propagation/b3"
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/trace"
 
@@ -34,14 +35,37 @@ import (
 )
 
 var (
-	// Report latency seen by this server on the downstream call
-	mLatencyUs = stats.Float64("latency", "The downstream latency in microseconds", "ms")
+	upstreamURI   string
+	downstreamURI string
+	serviceName   string
 )
+
+func homeHandler(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(w, "hello:%s", serviceName)
+
+	if downstreamURI != "" {
+		r, _ := http.NewRequest("GET", downstreamURI, nil)
+
+		// Propagate the trace header info in the outgoing requests.
+		r = r.WithContext(req.Context())
+		client := &http.Client{Transport: &ochttp.Transport{}}
+		resp, err := client.Do(r)
+
+		if err != nil {
+			log.Println(err)
+		} else {
+			if body, err := ioutil.ReadAll(resp.Body); err == nil {
+				fmt.Fprintf(w, ":%s", string(body))
+			}
+			resp.Body.Close()
+		}
+	}
+}
 
 func main() {
 
 	// e.g: http://localhost:8888/
-	upstreamURI := os.Getenv("UPSTREAM_URI")
+	upstreamURI = os.Getenv("UPSTREAM_URI")
 	if upstreamURI == "" {
 		fmt.Println("Error: UPSTREAM_URI not present")
 		os.Exit(1)
@@ -49,7 +73,7 @@ func main() {
 
 	// URI of the downstream service
 	// e.g: http://localhost:8889/
-	downstreamURI := os.Getenv("DOWNSTREAM_URI")
+	downstreamURI = os.Getenv("DOWNSTREAM_URI")
 
 	// Setup tracing
 	// reporterURI: zipkin reporter URI
@@ -63,7 +87,7 @@ func main() {
 		metricsPort = "8887"
 	}
 
-	serviceName := os.Getenv("SERVICE_NAME")
+	serviceName = os.Getenv("SERVICE_NAME")
 	if serviceName == "" {
 		var err error
 		if serviceName, err = os.Hostname(); err != nil {
@@ -98,20 +122,8 @@ func main() {
 	// Report stats at every second.
 	view.SetReportingPeriod(1 * time.Second)
 
-	latencyView := &view.View{
-		Name:        serviceName + "/latency",
-		Measure:     mLatencyUs,
-		Description: "The distribution of the latencies",
-		Aggregation: view.Distribution(0, 100, 500, 600, 700, 800, 900, 1000),
-	}
-
-	/*
-		if err := view.Register(ochttp.DefaultServerViews...); err != nil {
-			log.Fatalf("Failed to register metrics view: %v", err)
-		}
-	*/
-
-	if err := view.Register(latencyView); err != nil {
+	// Register the built in views when using ichttp
+	if err := view.Register(ochttp.ClientLatencyView, ochttp.ServerLatencyView); err != nil {
 		log.Fatalf("Failed to register metrics view: %v", err)
 	}
 
@@ -124,43 +136,13 @@ func main() {
 		}
 	}()
 
-	// Run the actual workload
-	client := &http.Client{Transport: &ochttp.Transport{}}
-	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		startTime := time.Now()
-		fmt.Fprintf(w, "hello:%s", serviceName)
+	r := mux.NewRouter()
+	r.HandleFunc("/", homeHandler).Methods(http.MethodGet, http.MethodHead)
 
-		if downstreamURI != "" {
-			_, span := trace.StartSpan(req.Context(), "downstream")
-			defer span.End()
+	handler := &ochttp.Handler{ // add opencensus instrumentation
+		Handler:     r,
+		Propagation: &b3.HTTPFormat{}}
 
-			span.Annotate([]trace.Attribute{trace.StringAttribute("key", "value")}, "something happened")
-			span.AddAttributes(trace.StringAttribute("hello", serviceName))
-
-			r, _ := http.NewRequest("GET", downstreamURI, nil)
-
-			// Propagate the trace header info in the outgoing requests.
-			r = r.WithContext(req.Context())
-
-			startTime := time.Now()
-			resp, err := client.Do(r)
-			t := float64(time.Since(startTime).Nanoseconds()) / 1e3
-			stats.Record(req.Context(), mLatencyUs.M(t))
-
-			if err != nil {
-				log.Println(err)
-			} else {
-				if body, err := ioutil.ReadAll(resp.Body); err != nil {
-					fmt.Fprintf(w, ":%s", string(body))
-				}
-				resp.Body.Close()
-			}
-		} else {
-			//This is time to work
-			t := float64(time.Since(startTime).Nanoseconds()) / 1e3
-			stats.Record(req.Context(), mLatencyUs.M(t))
-		}
-	})
-	log.Fatal("Server", http.ListenAndServe(upstreamURI, &ochttp.Handler{}))
+	log.Fatal("Server", http.ListenAndServe(upstreamURI, handler))
 
 }

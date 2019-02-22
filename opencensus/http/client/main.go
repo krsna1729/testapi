@@ -15,9 +15,12 @@
 package main
 
 import (
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"go.opencensus.io/exporter/zipkin"
 	"go.opencensus.io/plugin/ochttp"
@@ -34,6 +37,12 @@ func main() {
 		server = "http://localhost:8888"
 	}
 
+	count := os.Getenv("COUNT")
+	numRequests, err := strconv.ParseInt(count, 0, 64)
+	if err != nil {
+		numRequests = 1
+	}
+
 	// Setup tracing
 	// reporterURI: zipkin reporter URI
 	reporterURI := os.Getenv("REPORTER_URI")
@@ -47,6 +56,7 @@ func main() {
 	}
 
 	reporter := zipkinHTTP.NewReporter(reporterURI)
+	defer reporter.Close()
 	ze := zipkin.NewExporter(reporter, localEndpoint)
 
 	// And now finally register it as a Trace Exporter
@@ -57,11 +67,14 @@ func main() {
 
 	client := &http.Client{Transport: &ochttp.Transport{}}
 
-	for i := 0; i < 1000; i++ {
+	for i := int64(0); i < numRequests; i++ {
 		resp, err := client.Get(server)
 		if err != nil {
 			log.Printf("Failed to get response: %v", err)
 		} else {
+			if _, err := ioutil.ReadAll(resp.Body); err != nil {
+				fmt.Println("error:", err)
+			}
 			resp.Body.Close()
 		}
 	}
