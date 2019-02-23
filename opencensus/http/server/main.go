@@ -95,7 +95,7 @@ func main() {
 		}
 	}
 
-	localEndpoint, err := openzipkin.NewEndpoint(serviceName, upstreamURI)
+	localEndpoint, err := openzipkin.NewEndpoint(serviceName, ":0")
 	if err != nil {
 		log.Fatalf("Failed to create Zipkin localEndpoint with URI %q error: %v", upstreamURI, err)
 	}

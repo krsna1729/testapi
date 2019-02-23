@@ -1,0 +1,18 @@
+global:
+  scrape_interval:     5s # By default, scrape targets every 5 seconds.
+  external_labels:
+    monitor: 'latency-monitor'
+
+scrape_configs:
+  - job_name: 'root'
+    scrape_interval: 1s
+    static_configs:
+      - targets: ['192.168.211.4:8887']
+  - job_name: 'branch'
+    scrape_interval: 1s
+    static_configs:
+      - targets: ['192.168.211.5:8887']
+  - job_name: 'leaf'
+    scrape_interval: 1s
+    static_configs:
+      - targets: ['192.168.211.6:8887']
