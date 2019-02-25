@@ -20,6 +20,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -38,6 +39,7 @@ var (
 	upstreamURI   string
 	downstreamURI string
 	serviceName   string
+	cpuWorkMs     time.Duration //CPU intensive busywork in ms
 )
 
 // busyWork does meaningless work for the specified duration,
@@ -58,6 +60,10 @@ func busyWork(d time.Duration) int {
 func homeHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "hello:%s", serviceName)
 
+	if cpuWorkMs != 0 {
+		busyWork(cpuWorkMs)
+	}
+
 	if downstreamURI != "" {
 		r, _ := http.NewRequest("GET", downstreamURI, nil)
 
@@ -74,12 +80,19 @@ func homeHandler(w http.ResponseWriter, req *http.Request) {
 			}
 			resp.Body.Close()
 		}
-	} else {
-		busyWork(10 * time.Millisecond)
 	}
+
 }
 
 func main() {
+	cpuBusywork := os.Getenv("CPU_BUSYWORK")
+	if cpuBusywork != "" {
+		if i, err := strconv.Atoi(cpuBusywork); err == nil {
+			cpuWorkMs = time.Duration(i) * time.Millisecond
+		}
+	}
+
+	fmt.Println("cpuWorkMs := ", cpuWorkMs)
 
 	// e.g: http://localhost:8888/
 	upstreamURI = os.Getenv("UPSTREAM_URI")
