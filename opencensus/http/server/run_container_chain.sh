@@ -1,8 +1,9 @@
-#docker build -t test-api-server:latest .
-#docker network rm apinet 
+# Rebuild all artifacts
+docker rm -f zipkin-latency prometheus-latency root branch leaf test
+docker network rm apinet 
+docker build -t test-api-server:latest .
 
 # Cleanup
-docker rm -f zipkin-latency prometheus-latency root branch leaf test
 
 # Docker DNS does not work with Kata (hence use explicit IP)
 # Use a custom docker network so that you can control the network

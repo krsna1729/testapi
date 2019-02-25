@@ -40,6 +40,21 @@ var (
 	serviceName   string
 )
 
+// busyWork does meaningless work for the specified duration,
+// so we can observe CPU usage.
+func busyWork(d time.Duration) int {
+	var n int
+	afterCh := time.After(d)
+	for {
+		select {
+		case <-afterCh:
+			return n
+		default:
+			n++
+		}
+	}
+}
+
 func homeHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "hello:%s", serviceName)
 
@@ -59,6 +74,8 @@ func homeHandler(w http.ResponseWriter, req *http.Request) {
 			}
 			resp.Body.Close()
 		}
+	} else {
+		busyWork(10 * time.Millisecond)
 	}
 }
 
