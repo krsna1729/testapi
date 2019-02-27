@@ -21,14 +21,20 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"go.opencensus.io/exporter/zipkin"
 	"go.opencensus.io/plugin/ochttp"
 	"go.opencensus.io/trace"
 
+	"github.com/codahale/hdrhistogram"
 	openzipkin "github.com/openzipkin/zipkin-go"
 	zipkinHTTP "github.com/openzipkin/zipkin-go/reporter/http"
 )
+
+func sinceInMilliseconds(startTime time.Time) int64 {
+	return int64(time.Since(startTime).Nanoseconds()) / 1e6
+}
 
 func main() {
 	serviceName := "client"
@@ -67,7 +73,9 @@ func main() {
 
 	client := &http.Client{Transport: &ochttp.Transport{}}
 
+	h := hdrhistogram.New(1, 10000, 3)
 	for i := int64(0); i < numRequests; i++ {
+		start := time.Now()
 		resp, err := client.Get(server)
 		if err != nil {
 			log.Printf("Failed to get response: %v", err)
@@ -77,6 +85,14 @@ func main() {
 			}
 			resp.Body.Close()
 		}
+		elapsed := sinceInMilliseconds(start)
+		if err := h.RecordValue(int64(elapsed)); err != nil {
+			fmt.Println("error:", err)
+		}
 	}
+
+	distribution := h.CumulativeDistribution()
+	fmt.Println("Distribution:")
+	fmt.Println(distribution)
 
 }
