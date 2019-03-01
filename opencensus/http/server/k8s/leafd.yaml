@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: leaf
+  labels:
+    svc: testapi
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '8887'
+spec:
+  ports:
+  - name: query
+    port: 8888
+    protocol: TCP
+  - name: metrics
+    port: 8887
+    protocol: TCP
+  selector:
+    run: leaf
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: leaf
+  name: leaf
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: leaf
+  template:
+    metadata:
+      labels:
+        run: leaf
+    spec:
+      containers:
+      - env:
+        - name: UPSTREAM_URI
+          value: 0.0.0.0:8888
+        - name: REPORTER_URI
+          value: http://zipkin:9411/api/v2/spans
+        - name: SERVICE_NAME
+          value: leaf 
+        image: mcastelino/test-api-server:latest
+        name: leaf
