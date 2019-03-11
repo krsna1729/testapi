@@ -29,12 +29,12 @@ spec:
   resources:
     requests:
       memory: 400Mi
-  storage:
-    volumeClaimTemplate:
-      spec:
-        resources:
-          requests:
-            storage: 1Gi
+      #  storage:
+      #    volumeClaimTemplate:
+      #      spec:
+      #        resources:
+      #          requests:
+      #            storage: 1Gi
 ---
 apiVersion: v1
 kind: Service
