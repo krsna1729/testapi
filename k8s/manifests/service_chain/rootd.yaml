@@ -46,5 +46,7 @@ spec:
           value: root 
         - name: REPORTER_URI
           value: http://zipkin:9411/api/v2/spans
+        - name:  CPU_BUSYWORK
+          value: '10'
         image: mcastelino/test-api-server:latest
         name: root
