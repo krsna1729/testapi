@@ -57,11 +57,11 @@ data:
         health
         kubernetes cluster.local in-addr.arpa ip6.arpa {
           pods insecure
-          upstream ##FIXME WITH YOUR DNS IP##
+          upstream 10.248.2.1
           fallthrough in-addr.arpa ip6.arpa
         }
         prometheus :9153
-        proxy . ##FIXME WITH YOUR DNS IP##
+        proxy . 10.248.2.1
         cache 30
         loop
         reload
