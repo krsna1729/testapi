@@ -36,6 +36,26 @@ spec:
       labels:
         run: root
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: run
+                operator: In
+                values:
+                - root
+            topologyKey: "kubernetes.io/hostname"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: run
+                operator: In
+                values:
+                - branch
+                - leaf
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - env:
         - name: UPSTREAM_URI
