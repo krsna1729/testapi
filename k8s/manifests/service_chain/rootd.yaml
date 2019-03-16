@@ -70,3 +70,6 @@ spec:
           value: '10'
         image: mcastelino/test-api-server:latest
         name: root
+      - name: stress-ng
+        image: alexeiled/stress-ng:latest
+        args: ["--cpu", "1", "--io", "1", "--vm", "1", "--vm-bytes", "256M", "--timeout", "300s", "--metrics-brief"]
