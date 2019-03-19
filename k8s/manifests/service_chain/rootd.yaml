@@ -5,20 +5,38 @@ metadata:
   labels:
     svc: testapi
   annotations:
-    prometheus.io/scrape: 'true'
-    prometheus.io/port: '8887'
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8887"
 spec:
   ports:
-  - name: query
-    port: 8888
-    protocol: TCP
-  - name: metrics
-    port: 8887
-    protocol: TCP
+    - name: query
+      port: 8888
+      protocol: TCP
+    - name: metrics
+      port: 8887
+      protocol: TCP
   selector:
     run: root
 status:
   loadBalancer: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: stresscfg
+data:
+  stress.cfg: |
+    metrics-brief
+    cpu 1
+    cpu-ops 1
+    vm 1
+    vm-ops 1
+    matrix 1
+    matrix-ops 1
+    crypt 1
+    crypt-ops 1
+    af-alg 1
+    af-alg-ops 1
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -39,37 +57,41 @@ spec:
       affinity:
         podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: run
-                operator: In
-                values:
-                - root
-            topologyKey: "kubernetes.io/hostname"
+            - labelSelector:
+                matchExpressions:
+                  - key: run
+                    operator: In
+                    values:
+                      - root
+              topologyKey: "kubernetes.io/hostname"
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: run
-                operator: In
-                values:
-                - branch
-                - leaf
-            topologyKey: "kubernetes.io/hostname"
+            - labelSelector:
+                matchExpressions:
+                  - key: run
+                    operator: In
+                    values:
+                      - branch
+                      - leaf
+              topologyKey: "kubernetes.io/hostname"
+      volumes:
+        - name: config
+          configMap:
+            name: stresscfg
       containers:
-      - env:
-        - name: UPSTREAM_URI
-          value: 0.0.0.0:8888
-        - name: DOWNSTREAM_URI
-          value: http://branch:8888
-        - name: SERVICE_NAME
-          value: root 
-        - name: REPORTER_URI
-          value: http://zipkin:9411/api/v2/spans
-        - name:  CPU_BUSYWORK
-          value: '10'
-        image: mcastelino/test-api-server:latest
-        name: root
-      - name: stress-ng
-        image: alexeiled/stress-ng:latest
-        args: ["--cpu", "1", "--io", "1", "--vm", "1", "--vm-bytes", "256M", "--timeout", "300s", "--metrics-brief"]
+        - name: root
+          env:
+            - name: UPSTREAM_URI
+              value: 0.0.0.0:8888
+            - name: DOWNSTREAM_URI
+              value: http://branch:8888
+            - name: SERVICE_NAME
+              value: root
+            - name: REPORTER_URI
+              value: http://zipkin:9411/api/v2/spans
+            - name: JOBFILE
+              value: /etc/testapi/config/stress.cfg
+          image: mcastelino/test-api-server:latest
+          volumeMounts:
+            - name: config
+              mountPath: /etc/testapi/config

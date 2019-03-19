@@ -20,7 +20,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
+	"os/exec"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -39,30 +39,34 @@ var (
 	upstreamURI   string
 	downstreamURI string
 	serviceName   string
-	cpuWorkMs     time.Duration //CPU intensive busywork in ms
+	jobFile       string
 )
 
 // busyWork does meaningless work for the specified duration,
 // so we can observe CPU usage.
-func busyWork(d time.Duration) int {
-	var n int
-	afterCh := time.After(d)
-	for {
-		select {
-		case <-afterCh:
-			return n
-		default:
-			n++
-		}
+func busyWork() {
+	var cmd *exec.Cmd
+
+	// Not specifing a jobFile benchmarks forkExec
+	if jobFile == "" {
+		cmd = exec.Command("date")
+	} else {
+		cmd = exec.Command("stress-ng", "--job", jobFile)
+	}
+	err := cmd.Start()
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = cmd.Wait()
+	if err != nil {
+		log.Printf("Command finished with error: %v", err)
 	}
 }
 
 func homeHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "hello:%s", serviceName)
 
-	if cpuWorkMs != 0 {
-		busyWork(cpuWorkMs)
-	}
+	busyWork()
 
 	if downstreamURI != "" {
 		r, _ := http.NewRequest("GET", downstreamURI, nil)
@@ -85,14 +89,7 @@ func homeHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	cpuBusywork := os.Getenv("CPU_BUSYWORK")
-	if cpuBusywork != "" {
-		if i, err := strconv.Atoi(cpuBusywork); err == nil {
-			cpuWorkMs = time.Duration(i) * time.Millisecond
-		}
-	}
-
-	fmt.Println("cpuWorkMs := ", cpuWorkMs)
+	jobFile = os.Getenv("JOBFILE")
 
 	// e.g: http://localhost:8888/
 	upstreamURI = os.Getenv("UPSTREAM_URI")
