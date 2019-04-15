@@ -27,7 +27,7 @@ metadata:
     run: branch
   name: branch
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       run: branch
@@ -62,6 +62,10 @@ spec:
             name: stresscfg
       containers:
         - name: branch
+          resources:
+            limits:
+              memory: "2048Mi"
+              cpu: "4"
           env:
             - name: UPSTREAM_URI
               value: 0.0.0.0:8888
@@ -71,8 +75,8 @@ spec:
               value: http://zipkin:9411/api/v2/spans
             - name: SERVICE_NAME
               value: branch
-            - name: CPU_BUSYWORK
-              value: "10"
+            - name: PRIME_MAX
+              value: "100000"
             - name: JOBFILE
               value: /etc/testapi/config/stress.cfg
           image: mcastelino/test-api-server:latest

@@ -21,6 +21,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -31,6 +32,7 @@ import (
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/trace"
 
+	"github.com/kavehmz/prime"
 	openzipkin "github.com/openzipkin/zipkin-go"
 	zipkinHTTP "github.com/openzipkin/zipkin-go/reporter/http"
 )
@@ -40,36 +42,14 @@ var (
 	downstreamURI string
 	serviceName   string
 	jobFile       string
+	primeMax      uint64
 )
 
-// busyWork does meaningless work for the specified duration,
-// so we can observe CPU usage.
-func busyWork() {
-	var cmd *exec.Cmd
-
-	// Not specifing a jobFile benchmarks forkExec
-	if jobFile == "" {
-		cmd = exec.Command("date")
-	} else {
-		cmd = exec.Command("stress-ng", "--job", jobFile)
-	}
-	err := cmd.Start()
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = cmd.Wait()
-	if err != nil {
-		log.Printf("Command finished with error: %v", err)
-	}
-}
-
-func homeHandler(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "hello:%s", serviceName)
-
-	busyWork()
+func downstreamHandler(work string, w http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(w, "hello:%s:%s", serviceName, work)
 
 	if downstreamURI != "" {
-		r, _ := http.NewRequest("GET", downstreamURI, nil)
+		r, _ := http.NewRequest("GET", downstreamURI+work, nil)
 
 		// Propagate the trace header info in the outgoing requests.
 		r = r.WithContext(req.Context())
@@ -88,7 +68,68 @@ func homeHandler(w http.ResponseWriter, req *http.Request) {
 
 }
 
+func homeHandler(w http.ResponseWriter, req *http.Request) {
+
+	downstreamHandler("/", w, req)
+}
+
+func jobHandler(w http.ResponseWriter, req *http.Request) {
+	if jobFile == "" {
+		return
+	}
+	var cmd *exec.Cmd
+	cmd = exec.Command("stress-ng", "--job", jobFile)
+	err := cmd.Start()
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = cmd.Wait()
+	if err != nil {
+		log.Printf("Command finished with error: %v", err)
+	}
+
+	downstreamHandler("/stress-ng", w, req)
+}
+
+func primeHandler(w http.ResponseWriter, req *http.Request) {
+	if primeMax != 0 {
+		p := prime.Primes(primeMax)
+		q := prime.SieveOfEratosthenes(primeMax)
+		if len(p) != len(q) {
+			log.Printf("primes finished with error")
+		}
+	}
+
+	downstreamHandler("/prime", w, req)
+}
+
+func forkHandler(w http.ResponseWriter, req *http.Request) {
+
+	var cmd *exec.Cmd
+	cmd = exec.Command("date")
+	err := cmd.Start()
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = cmd.Wait()
+	if err != nil {
+		log.Printf("Command finished with error: %v", err)
+	}
+
+	downstreamHandler("/fork", w, req)
+}
+
 func main() {
+	genPrime := os.Getenv("PRIME_MAX")
+	if genPrime != "" {
+		var err error
+		primeMax, err = strconv.ParseUint(genPrime, 10, 64)
+		if err != nil {
+			fmt.Println("Error:", err)
+			os.Exit(1)
+		}
+	}
+
 	jobFile = os.Getenv("JOBFILE")
 
 	// e.g: http://localhost:8888/
@@ -133,8 +174,9 @@ func main() {
 	// And now finally register it as a Trace Exporter
 	trace.RegisterExporter(ze)
 
-	//TODO: Switch to trace.ProbabilitySampler if needed
-	trace.ApplyConfig(trace.Config{DefaultSampler: trace.AlwaysSample()})
+	//Reduce sampling as it introduces trace induced latency
+	probSampler := trace.ProbabilitySampler(1 / 1000.0)
+	trace.ApplyConfig(trace.Config{DefaultSampler: probSampler})
 
 	// Setup metrics
 	pe, err := prometheus.NewExporter(prometheus.Options{
@@ -165,6 +207,9 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", homeHandler).Methods(http.MethodGet, http.MethodHead)
+	r.HandleFunc("/prime", primeHandler).Methods(http.MethodGet, http.MethodHead)
+	r.HandleFunc("/stress-ng", jobHandler).Methods(http.MethodGet, http.MethodHead)
+	r.HandleFunc("/fork", forkHandler).Methods(http.MethodGet, http.MethodHead)
 
 	handler := &ochttp.Handler{ // add opencensus instrumentation
 		Handler:     r,

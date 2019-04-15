@@ -80,6 +80,10 @@ spec:
             name: stresscfg
       containers:
         - name: root
+          resources:
+            limits:
+              memory: "2048Mi"
+              cpu: "4"
           env:
             - name: UPSTREAM_URI
               value: 0.0.0.0:8888
@@ -89,6 +93,8 @@ spec:
               value: root
             - name: REPORTER_URI
               value: http://zipkin:9411/api/v2/spans
+            - name: PRIME_MAX
+              value: "100000"
             - name: JOBFILE
               value: /etc/testapi/config/stress.cfg
           image: mcastelino/test-api-server:latest
