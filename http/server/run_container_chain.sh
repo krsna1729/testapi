@@ -30,7 +30,7 @@ docker run -d --name=grafana-latency --net=host -p 3000:3000 grafana/grafana
 # Only the root container exposes the port. Downstream URIs are accessed within the container network
 RUNTIME=runc
 PROFILE='/stress.cfg'
-MAX_PRIME='100000'
+MAX_PRIME='1500000'
 docker run --network apinet --name=root --hostname=root --runtime="$RUNTIME" -d \
                                          --cpuset-cpus 4-7 \
                                          -e UPSTREAM_URI='0.0.0.0:8888' \

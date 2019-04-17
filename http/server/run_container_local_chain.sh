@@ -24,7 +24,7 @@ docker run -d --name=grafana-latency --net=host -p 3000:3000 grafana/grafana
 
 RUNTIME=runc
 PROFILE='/stress.cfg'
-MAX_PRIME='100000'
+MAX_PRIME='1500000'
 docker run --network apinet --name=root --hostname=root --runtime="$RUNTIME" -d \
                                          --cpuset-cpus 4-7 \
                                          --net=host \
@@ -61,4 +61,4 @@ docker run --network apinet --name=leaf --hostname=leaf --runtime="$RUNTIME" -d 
                                          -v $(pwd)/stress.cfg:/stress.cfg \
                                          mcastelino/test-api-server:latest
 
-./run_tests
+./run_tests.sh

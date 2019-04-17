@@ -76,7 +76,7 @@ spec:
             - name: SERVICE_NAME
               value: branch
             - name: PRIME_MAX
-              value: "100000"
+              value: "1500000"
             - name: JOBFILE
               value: /etc/testapi/config/stress.cfg
           image: mcastelino/test-api-server:latest

@@ -94,8 +94,7 @@ func jobHandler(w http.ResponseWriter, req *http.Request) {
 func primeHandler(w http.ResponseWriter, req *http.Request) {
 	if primeMax != 0 {
 		p := prime.Primes(primeMax)
-		q := prime.SieveOfEratosthenes(primeMax)
-		if len(p) != len(q) {
+		if len(p) == 0 {
 			log.Printf("primes finished with error")
 		}
 	}
