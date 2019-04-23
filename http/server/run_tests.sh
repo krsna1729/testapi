@@ -10,8 +10,8 @@ run_test "/"
 echo "Baseline: Prime computation"
 run_test "/prime"
 
-echo "Fork Baseline: "
-run_test "/fork"
+#echo "Fork Baseline: "
+#run_test "/fork"
 
-echo "Under load:"
-run_test "/stress-ng"
+#echo "Under load:"
+#run_test "/stress-ng"
