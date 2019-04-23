@@ -1,13 +1,16 @@
-# Rebuild all artifacts
-docker rm -f root branch leaf 
-killall server
-
 # Only the root container exposes the port. Downstream URIs are accessed within the container network
 RUNTIME=runc
 PROFILE='/stress.cfg'
 MAX_PRIME='1500000'
+TASK1="4-7"
+TASK2="8-11"
+TASK3="12-15"
+
+killall server
+docker rm -f root branch leaf
+
 docker run --network apinet --name=root --hostname=root --runtime="$RUNTIME" -d \
-                                         --cpuset-cpus 4-7 \
+                                         --cpuset-cpus $TASK1 \
                                          -e UPSTREAM_URI='0.0.0.0:8888' \
                                          -e DOWNSTREAM_URI='http://192.168.211.5:8888' \
                                          -e REPORTER_URI='http://192.168.211.2:9411/api/v2/spans' \
@@ -19,7 +22,7 @@ docker run --network apinet --name=root --hostname=root --runtime="$RUNTIME" -d 
                                          mcastelino/test-api-server:latest
 
 docker run --network apinet --name=branch --hostname=branch --runtime="$RUNTIME" -d \
-                                         --cpuset-cpus 8-11 \
+                                         --cpuset-cpus $TASK2 \
                                          -e UPSTREAM_URI='0.0.0.0:8888' \
                                          -e DOWNSTREAM_URI='http://192.168.211.6:8888' \
                                          -e REPORTER_URI='http://192.168.211.2:9411/api/v2/spans' \
@@ -30,7 +33,7 @@ docker run --network apinet --name=branch --hostname=branch --runtime="$RUNTIME"
                                          mcastelino/test-api-server:latest
 
 docker run --network apinet --name=leaf --hostname=leaf --runtime="$RUNTIME" -d \
-                                         --cpuset-cpus 12-15 \
+                                         --cpuset-cpus $TASK3 \
                                          -e UPSTREAM_URI='0.0.0.0:8888' \
                                          -e REPORTER_URI='http://192.168.211.2:9411/api/v2/spans' \
                                          --ip 192.168.211.6 \
@@ -38,6 +41,3 @@ docker run --network apinet --name=leaf --hostname=leaf --runtime="$RUNTIME" -d 
                                          -e PRIME_MAX=$MAX_PRIME \
                                          -v $(pwd)/stress.cfg:/stress.cfg \
                                          mcastelino/test-api-server:latest
-
-echo "Container Chain with Networking:"
-./run_tests.sh
