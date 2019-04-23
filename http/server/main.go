@@ -15,6 +15,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -29,7 +30,9 @@ import (
 	"go.opencensus.io/exporter/zipkin"
 	"go.opencensus.io/plugin/ochttp"
 	"go.opencensus.io/plugin/ochttp/propagation/b3"
+	"go.opencensus.io/stats"
 	"go.opencensus.io/stats/view"
+	"go.opencensus.io/tag"
 	"go.opencensus.io/trace"
 
 	"github.com/kavehmz/prime"
@@ -44,6 +47,26 @@ var (
 	jobFile       string
 	primeMax      uint64
 )
+
+var (
+	// The latency in milliseconds
+	mPrimeLatencyMs = stats.Float64("prime/latency", "The latency in milliseconds per prime generation call", stats.UnitMilliseconds)
+)
+
+var (
+	workloadLatencyView = &view.View{
+		Name:        "prime/latency",
+		Measure:     mPrimeLatencyMs,
+		Description: "The distribution of the latencies for prime calculation",
+
+		// Latency in buckets: in ms
+		Aggregation: view.Distribution(1, 5, 10, 15, 25, 30, 35, 40, 45, 50, 100, 200, 400, 600, 800, 1000, 2000, 4000, 6000),
+		TagKeys:     []tag.Key{keyMethod}}
+)
+
+func sinceInMilliseconds(startTime time.Time) int64 {
+	return int64(time.Since(startTime).Nanoseconds()) / 1e6
+}
 
 func downstreamHandler(work string, w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "hello:%s:%s", serviceName, work)
@@ -91,13 +114,27 @@ func jobHandler(w http.ResponseWriter, req *http.Request) {
 	downstreamHandler("/stress-ng", w, req)
 }
 
+var (
+	keyMethod, _ = tag.NewKey("method")
+)
+
 func primeHandler(w http.ResponseWriter, req *http.Request) {
+	startTime := time.Now()
+
+	ctx, err := tag.New(context.Background(), tag.Insert(keyMethod, "primeHandler"))
+	if err != nil {
+		return
+	}
+
 	if primeMax != 0 {
 		p := prime.Primes(primeMax)
 		if len(p) == 0 {
 			log.Printf("primes finished with error")
 		}
 	}
+
+	ms := float64(time.Since(startTime).Nanoseconds()) / 1e6
+	stats.Record(ctx, mPrimeLatencyMs.M(ms))
 
 	downstreamHandler("/prime", w, req)
 }
@@ -191,7 +228,7 @@ func main() {
 	view.SetReportingPeriod(1 * time.Second)
 
 	// Register the built in views when using ichttp
-	if err := view.Register(ochttp.ClientLatencyView, ochttp.ServerLatencyView); err != nil {
+	if err := view.Register(ochttp.ClientLatencyView, ochttp.ServerLatencyView, workloadLatencyView); err != nil {
 		log.Fatalf("Failed to register metrics view: %v", err)
 	}
 
