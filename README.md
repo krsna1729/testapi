@@ -199,64 +199,82 @@ Response time histogram:
   0.034 [1]     |
 ```
 
-Now that the baseline has been established this workload can be run in kubernetes to evaluate the impact of different types of networking plugins, service mesh technologies and service meshes to the latency spread.
-
-A output from a vargant VM cluster based kubernetes can be seen here. You will see a higher degree of variation which may be contibuted by the VM layer or Kubernetes itself.
+Now that the baseline has been established this workload can be run in kubernetes to evaluate the impact of different types of networking plugins, service mesh technologies and service meshes to the latency spread. This can also be used to model the impact of Kubernetes QoS classes, replicas and affinity and hardware topology.
 
 **Kubernetes baseline**
 
-Here we see that the baseline http now ranges from `2-5ms` vs `1-2ms` when the tests were running on the same node. This helps us baseline the node to node networking latency. We also see that the scheduler baseline also ranges from `34-40ms` in this case.
+The sample output from a single node Kubernetes cluster is shown below. 
+
+Here we see that the baseline http now is typically `1ms` but ranges from `1-7ms` vs `1-2ms`. We also see that the scheduler latency is typically `33ms` with some outliers.
 
 ```
 hello:root:/:hello:branch:/:hello:leaf:/
 Response time histogram:
   0.001 [1]     |
-  0.002 [92]    |■■■
-  0.003 [286]   |■■■■■■■■
-  0.003 [854]   |■■■■■■■■■■■■■■■■■■■■■■■■
-  0.004 [1410]  |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.005 [266]   |■■■■■■■■
-  0.006 [10]    |
-  0.006 [2]     |
-  0.007 [0]     |
-  0.008 [1]     |
-  0.009 [1]     |
+  0.001 [8873]  |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.002 [3]     |
+  0.003 [3]     |
+  0.003 [3]     |
+  0.004 [1]     |
+  0.004 [1]     |
+  0.005 [2]     |
+  0.006 [0]     |
+  0.006 [0]     |
+  0.007 [1]     |
+
 
 hello:root:/busywork:hello:branch:/busywork:hello:leaf:/busywork
 Response time histogram:
-  0.034 [1]     |
-  0.034 [110]   |■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.035 [155]   |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.036 [15]    |■■■■
-  0.036 [2]     |■
-  0.037 [2]     |■
-  0.038 [1]     |
+  0.031 [1]     |
+  0.033 [312]   |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.036 [1]     |
   0.038 [0]     |
-  0.039 [0]     |
   0.040 [0]     |
-  0.040 [3]     |■
+  0.042 [0]     |
+  0.044 [0]     |
+  0.047 [0]     |
+  0.049 [0]     |
+  0.051 [0]     |
+  0.053 [1]     |
 ```
 
 **Kubernetes prime computation**
-Here we see that the prime computation latency now ranges from `52-97ms` which is quite a large range. We would have expected a range from `19-30ms`.
+
+Here we see that the prime computation latency now ranges from `15-20ms` with no real outliers. So this is within 2ms of the expected range. 
 
 ```
 hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
 Response time histogram:
-  0.052 [1]     |■
-  0.057 [3]     |■■■
-  0.061 [6]     |■■■■■■■
-  0.066 [15]    |■■■■■■■■■■■■■■■■■
-  0.070 [30]    |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.074 [36]    |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.079 [19]    |■■■■■■■■■■■■■■■■■■■■■
-  0.083 [14]    |■■■■■■■■■■■■■■■■
-  0.088 [11]    |■■■■■■■■■■■■
-  0.092 [3]     |■■■
-  0.097 [1]     |■
+  0.015 [1]     |
+  0.015 [5]     |■■
+  0.016 [7]     |■■
+  0.016 [36]    |■■■■■■■■■■■
+  0.017 [78]    |■■■■■■■■■■■■■■■■■■■■■■■■
+  0.017 [100]   |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.018 [130]   |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.018 [120]   |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.019 [67]    |■■■■■■■■■■■■■■■■■■■■■
+  0.019 [25]    |■■■■■■■■
+  0.020 [4]     |■
 ```
 
+Increasing the concurrency level to 3 however does increase the latency spread due to some outliers.
 
+```
+hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
+Response time histogram:
+  0.007 [1]     |
+  0.021 [2526]  |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.036 [1]     |
+  0.051 [0]     |
+  0.065 [1]     |
+  0.080 [2]     |
+  0.095 [3]     |
+  0.109 [0]     |
+  0.124 [0]     |
+  0.139 [0]     |
+  0.153 [3]     |
+```
 
 ### Traces and metrics
 

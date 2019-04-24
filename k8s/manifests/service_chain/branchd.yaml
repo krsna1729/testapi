@@ -76,7 +76,7 @@ spec:
             - name: SERVICE_NAME
               value: branch
             - name: PRIME_MAX
-              value: "1500000"
+              value: "250000"
             - name: GOGC
               value: "off"
             - name: JOBFILE
