@@ -45,7 +45,7 @@ metadata:
     run: root
   name: root
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       run: root
@@ -95,6 +95,8 @@ spec:
               value: http://zipkin:9411/api/v2/spans
             - name: PRIME_MAX
               value: "1500000"
+            - name: GOGC
+              value: "off"
             - name: JOBFILE
               value: /etc/testapi/config/stress.cfg
           image: mcastelino/test-api-server:latest

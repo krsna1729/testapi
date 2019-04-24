@@ -77,6 +77,8 @@ spec:
               value: branch
             - name: PRIME_MAX
               value: "1500000"
+            - name: GOGC
+              value: "off"
             - name: JOBFILE
               value: /etc/testapi/config/stress.cfg
           image: mcastelino/test-api-server:latest

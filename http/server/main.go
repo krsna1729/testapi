@@ -50,7 +50,8 @@ var (
 
 var (
 	// The latency in milliseconds
-	mPrimeLatencyMs = stats.Float64("prime/latency", "The latency in milliseconds per prime generation call", stats.UnitMilliseconds)
+	mPrimeLatencyMs    = stats.Float64("prime/latency", "The latency in milliseconds per prime generation call", stats.UnitMilliseconds)
+	mBusyworkLatencyMs = stats.Float64("prime/latency", "The latency in milliseconds per busywork call", stats.UnitMilliseconds)
 )
 
 var (
@@ -60,9 +61,35 @@ var (
 		Description: "The distribution of the latencies for prime calculation",
 
 		// Latency in buckets: in ms
-		Aggregation: view.Distribution(1, 5, 10, 15, 25, 30, 35, 40, 45, 50, 100, 200, 400, 600, 800, 1000, 2000, 4000, 6000),
+		// TODO: Make this a runtime configuration vs build time
+		Aggregation: view.Distribution(1, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 35, 40, 45, 50, 100, 200, 400),
+		TagKeys:     []tag.Key{keyMethod}}
+
+	busyworkLatencyView = &view.View{
+		Name:        "busywork/latency",
+		Measure:     mBusyworkLatencyMs,
+		Description: "The distribution of the latencies for CPU busywork",
+
+		// Latency in buckets: in ms
+		// TODO: Make this a runtime configuration vs build time
+		Aggregation: view.Distribution(1, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 35, 40, 45, 50, 100, 200, 400),
 		TagKeys:     []tag.Key{keyMethod}}
 )
+
+// busyWork does meaningless work for the specified duration,
+// so we can observe CPU usage.
+func busyWork(d time.Duration) int {
+	var n int
+	afterCh := time.After(d)
+	for {
+		select {
+		case <-afterCh:
+			return n
+		default:
+			n++
+		}
+	}
+}
 
 func sinceInMilliseconds(startTime time.Time) int64 {
 	return int64(time.Since(startTime).Nanoseconds()) / 1e6
@@ -118,7 +145,32 @@ var (
 	keyMethod, _ = tag.NewKey("method")
 )
 
+func busyworkHandler(w http.ResponseWriter, req *http.Request) {
+	_, span := trace.StartSpan(req.Context(), "busyHandler")
+	_, spanp := trace.StartSpan(req.Context(), "busy")
+	defer span.End()
+
+	startTime := time.Now()
+
+	ctx, err := tag.New(context.Background(), tag.Insert(keyMethod, "busyHandler"))
+	if err != nil {
+		return
+	}
+
+	busyWork(10 * time.Millisecond)
+
+	ms := float64(time.Since(startTime).Nanoseconds()) / 1e6
+	stats.Record(ctx, mPrimeLatencyMs.M(ms))
+	spanp.End()
+
+	downstreamHandler("/busywork", w, req)
+}
+
 func primeHandler(w http.ResponseWriter, req *http.Request) {
+	_, span := trace.StartSpan(req.Context(), "primeHandler")
+	_, spanp := trace.StartSpan(req.Context(), "primeCalc")
+	defer span.End()
+
 	startTime := time.Now()
 
 	ctx, err := tag.New(context.Background(), tag.Insert(keyMethod, "primeHandler"))
@@ -135,6 +187,7 @@ func primeHandler(w http.ResponseWriter, req *http.Request) {
 
 	ms := float64(time.Since(startTime).Nanoseconds()) / 1e6
 	stats.Record(ctx, mPrimeLatencyMs.M(ms))
+	spanp.End()
 
 	downstreamHandler("/prime", w, req)
 }
@@ -211,7 +264,7 @@ func main() {
 	trace.RegisterExporter(ze)
 
 	//Reduce sampling as it introduces trace induced latency
-	probSampler := trace.ProbabilitySampler(1 / 1000.0)
+	probSampler := trace.ProbabilitySampler(1 / 100.0)
 	trace.ApplyConfig(trace.Config{DefaultSampler: probSampler})
 
 	// Setup metrics
@@ -243,6 +296,7 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", homeHandler).Methods(http.MethodGet, http.MethodHead)
+	r.HandleFunc("/busywork", busyworkHandler).Methods(http.MethodGet, http.MethodHead)
 	r.HandleFunc("/prime", primeHandler).Methods(http.MethodGet, http.MethodHead)
 	r.HandleFunc("/stress-ng", jobHandler).Methods(http.MethodGet, http.MethodHead)
 	r.HandleFunc("/fork", forkHandler).Methods(http.MethodGet, http.MethodHead)

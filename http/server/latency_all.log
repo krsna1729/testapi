@@ -4,28 +4,334 @@ Runlength: 10s
 Baseline: Pure HTTP forwarding
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   5714      0 --:--:-- --:--:-- --:--:--  5714
-hello:root:/:hello:branch:/:hello:leaf:/
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    43  100    43    0     0   5375      0 --:--:-- --:--:-- --:--:--  6142
+hello:broot:/:hello:bbranch:/:hello:bleaf:/
 Summary:
-  Total:	10.0023 secs
-  Slowest:	0.0028 secs
-  Fastest:	0.0008 secs
-  Average:	0.0015 secs
-  Requests/sec:	660.4448
+  Total:	10.0016 secs
+  Slowest:	0.0027 secs
+  Fastest:	0.0005 secs
+  Average:	0.0014 secs
+  Requests/sec:	739.1797
   
-  Total data:	264240 bytes
-  Size/request:	40 bytes
+  Total data:	317899 bytes
+  Size/request:	43 bytes
+
+Response time histogram:
+  0.000 [1]	|
+  0.001 [427]	|■■■■
+  0.001 [406]	|■■■■
+  0.001 [381]	|■■■■
+  0.001 [1311]	|■■■■■■■■■■■■■■
+  0.002 [3815]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.002 [1045]	|■■■■■■■■■■■
+  0.002 [5]	|
+  0.002 [0]	|
+  0.002 [1]	|
+  0.003 [1]	|
+
+
+Latency distribution:
+  10% in 0.0009 secs
+  25% in 0.0013 secs
+  50% in 0.0014 secs
+  75% in 0.0015 secs
+  90% in 0.0016 secs
+  95% in 0.0016 secs
+  99% in 0.0017 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0005 secs, 0.0027 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0006 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0003 secs
+  resp wait:	0.0012 secs, 0.0004 secs, 0.0022 secs
+  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
+
+Status code distribution:
+  [200]	7393 responses
+
+
+
+Baseline: 10ms x 3 Busywork
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    67  100    67    0     0   1861      0 --:--:-- --:--:-- --:--:--  1861
+hello:broot:/busywork:hello:bbranch:/busywork:hello:bleaf:/busywork
+Summary:
+  Total:	10.0199 secs
+  Slowest:	0.0330 secs
+  Fastest:	0.0313 secs
+  Average:	0.0320 secs
+  Requests/sec:	31.2378
+  
+  Total data:	20971 bytes
+  Size/request:	67 bytes
+
+Response time histogram:
+  0.031 [1]	|
+  0.032 [8]	|■■
+  0.032 [16]	|■■■■
+  0.032 [11]	|■■■
+  0.032 [80]	|■■■■■■■■■■■■■■■■■■■
+  0.032 [171]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.032 [22]	|■■■■■
+  0.033 [3]	|■
+  0.033 [0]	|
+  0.033 [0]	|
+  0.033 [1]	|
+
+
+Latency distribution:
+  10% in 0.0318 secs
+  25% in 0.0320 secs
+  50% in 0.0320 secs
+  75% in 0.0321 secs
+  90% in 0.0322 secs
+  95% in 0.0322 secs
+  99% in 0.0324 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0313 secs, 0.0330 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0006 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0001 secs
+  resp wait:	0.0319 secs, 0.0313 secs, 0.0323 secs
+  resp read:	0.0001 secs, 0.0000 secs, 0.0001 secs
+
+Status code distribution:
+  [200]	313 responses
+
+
+
+Prime computation
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    58  100    58    0     0   2416      0 --:--:-- --:--:-- --:--:--  2416
+hello:broot:/prime:hello:bbranch:/prime:hello:bleaf:/prime
+Summary:
+  Total:	10.0065 secs
+  Slowest:	0.0199 secs
+  Fastest:	0.0149 secs
+  Average:	0.0170 secs
+  Requests/sec:	58.9618
+  
+  Total data:	34220 bytes
+  Size/request:	58 bytes
+
+Response time histogram:
+  0.015 [1]	|
+  0.015 [13]	|■■■■
+  0.016 [81]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.016 [99]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.017 [116]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.017 [103]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.018 [79]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.018 [57]	|■■■■■■■■■■■■■■■■■■■■
+  0.019 [22]	|■■■■■■■■
+  0.019 [12]	|■■■■
+  0.020 [7]	|■■
+
+
+Latency distribution:
+  10% in 0.0157 secs
+  25% in 0.0163 secs
+  50% in 0.0169 secs
+  75% in 0.0176 secs
+  90% in 0.0182 secs
+  95% in 0.0187 secs
+  99% in 0.0196 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0149 secs, 0.0199 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0007 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0001 secs
+  resp wait:	0.0168 secs, 0.0148 secs, 0.0198 secs
+  resp read:	0.0001 secs, 0.0001 secs, 0.0001 secs
+
+Status code distribution:
+  [200]	590 responses
+
+
+
+Running Tests: Bare Metal
+Concurrency level: 3
+Runlength: 10s
+Baseline: Pure HTTP forwarding
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    43  100    43    0     0   7166      0 --:--:-- --:--:-- --:--:--  7166
+hello:broot:/:hello:bbranch:/:hello:bleaf:/
+Summary:
+  Total:	10.0012 secs
+  Slowest:	0.0029 secs
+  Fastest:	0.0005 secs
+  Average:	0.0008 secs
+  Requests/sec:	3919.2143
+  
+  Total data:	1685471 bytes
+  Size/request:	43 bytes
 
 Response time histogram:
   0.001 [1]	|
-  0.001 [38]	|
-  0.001 [110]	|■
-  0.001 [1229]	|■■■■■■■■■■■■■
-  0.002 [3839]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [1267]	|■■■■■■■■■■■■■
-  0.002 [93]	|■
-  0.002 [23]	|
-  0.002 [5]	|
+  0.001 [22050]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.001 [16084]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.001 [1030]	|■■
+  0.001 [27]	|
+  0.002 [1]	|
+  0.002 [1]	|
+  0.002 [0]	|
+  0.002 [0]	|
+  0.003 [0]	|
+  0.003 [3]	|
+
+
+Latency distribution:
+  10% in 0.0007 secs
+  25% in 0.0007 secs
+  50% in 0.0008 secs
+  75% in 0.0008 secs
+  90% in 0.0009 secs
+  95% in 0.0009 secs
+  99% in 0.0011 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0005 secs, 0.0029 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0009 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0001 secs
+  resp wait:	0.0007 secs, 0.0005 secs, 0.0020 secs
+  resp read:	0.0000 secs, 0.0000 secs, 0.0003 secs
+
+Status code distribution:
+  [200]	39197 responses
+
+
+
+Baseline: 10ms x 3 Busywork
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    67  100    67    0     0   1861      0 --:--:-- --:--:-- --:--:--  1861
+hello:broot:/busywork:hello:bbranch:/busywork:hello:bleaf:/busywork
+Summary:
+  Total:	10.0196 secs
+  Slowest:	0.0423 secs
+  Fastest:	0.0314 secs
+  Average:	0.0320 secs
+  Requests/sec:	93.6164
+  
+  Total data:	62846 bytes
+  Size/request:	67 bytes
+
+Response time histogram:
+  0.031 [1]	|
+  0.032 [922]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.034 [6]	|
+  0.035 [2]	|
+  0.036 [1]	|
+  0.037 [0]	|
+  0.038 [2]	|
+  0.039 [3]	|
+  0.040 [0]	|
+  0.041 [0]	|
+  0.042 [1]	|
+
+
+Latency distribution:
+  10% in 0.0318 secs
+  25% in 0.0319 secs
+  50% in 0.0320 secs
+  75% in 0.0321 secs
+  90% in 0.0322 secs
+  95% in 0.0323 secs
+  99% in 0.0337 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0314 secs, 0.0423 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0010 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0002 secs
+  resp wait:	0.0319 secs, 0.0313 secs, 0.0422 secs
+  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
+
+Status code distribution:
+  [200]	938 responses
+
+
+
+Prime computation
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    58  100    58    0     0   2521      0 --:--:-- --:--:-- --:--:--  2521
+hello:broot:/prime:hello:bbranch:/prime:hello:bleaf:/prime
+Summary:
+  Total:	10.0140 secs
+  Slowest:	0.0206 secs
+  Fastest:	0.0136 secs
+  Average:	0.0161 secs
+  Requests/sec:	186.1389
+  
+  Total data:	108112 bytes
+  Size/request:	58 bytes
+
+Response time histogram:
+  0.014 [1]	|
+  0.014 [48]	|■■■■■
+  0.015 [324]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.016 [404]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.016 [420]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.017 [280]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.018 [203]	|■■■■■■■■■■■■■■■■■■■
+  0.018 [120]	|■■■■■■■■■■■
+  0.019 [34]	|■■■
+  0.020 [19]	|■■
+  0.021 [11]	|■
+
+
+Latency distribution:
+  10% in 0.0147 secs
+  25% in 0.0152 secs
+  50% in 0.0160 secs
+  75% in 0.0169 secs
+  90% in 0.0178 secs
+  95% in 0.0182 secs
+  99% in 0.0195 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0136 secs, 0.0206 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0007 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0002 secs
+  resp wait:	0.0160 secs, 0.0135 secs, 0.0204 secs
+  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
+
+Status code distribution:
+  [200]	1864 responses
+
+
+
+Running Tests: Host local containers
+Concurrency level: 1
+Runlength: 10s
+Baseline: Pure HTTP forwarding
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    43  100    43    0     0   4777      0 --:--:-- --:--:-- --:--:--  4777
+hello:lroot:/:hello:lbranch:/:hello:lleaf:/
+Summary:
+  Total:	10.0017 secs
+  Slowest:	0.0029 secs
+  Fastest:	0.0006 secs
+  Average:	0.0015 secs
+  Requests/sec:	676.7864
+  
+  Total data:	291067 bytes
+  Size/request:	43 bytes
+
+Response time histogram:
+  0.001 [1]	|
+  0.001 [64]	|■
+  0.001 [95]	|■
+  0.001 [472]	|■■■■■
+  0.002 [3802]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.002 [2326]	|■■■■■■■■■■■■■■■■■■■■■■■■
+  0.002 [6]	|
+  0.002 [2]	|
+  0.002 [0]	|
   0.003 [0]	|
   0.003 [1]	|
 
@@ -35,1820 +341,578 @@ Latency distribution:
   25% in 0.0014 secs
   50% in 0.0015 secs
   75% in 0.0016 secs
-  90% in 0.0017 secs
-  95% in 0.0017 secs
-  99% in 0.0019 secs
+  90% in 0.0016 secs
+  95% in 0.0016 secs
+  99% in 0.0017 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0008 secs, 0.0028 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0007 secs
+  DNS+dialup:	0.0000 secs, 0.0006 secs, 0.0029 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0007 secs
   req write:	0.0000 secs, 0.0000 secs, 0.0003 secs
-  resp wait:	0.0011 secs, 0.0005 secs, 0.0019 secs
+  resp wait:	0.0014 secs, 0.0006 secs, 0.0019 secs
   resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
 
 Status code distribution:
-  [200]	6606 responses
+  [200]	6769 responses
 
 
 
-Baseline: Prime computation
+Baseline: 10ms x 3 Busywork
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    833      0 --:--:-- --:--:-- --:--:--   833
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    67  100    67    0     0   1810      0 --:--:-- --:--:-- --:--:--  1861
+hello:lroot:/busywork:hello:lbranch:/busywork:hello:lleaf:/busywork
 Summary:
-  Total:	10.0071 secs
-  Slowest:	0.0717 secs
-  Fastest:	0.0578 secs
-  Average:	0.0629 secs
-  Requests/sec:	15.8886
+  Total:	10.0063 secs
+  Slowest:	0.0331 secs
+  Fastest:	0.0318 secs
+  Average:	0.0321 secs
+  Requests/sec:	31.1804
   
-  Total data:	8745 bytes
-  Size/request:	55 bytes
+  Total data:	20904 bytes
+  Size/request:	67 bytes
 
 Response time histogram:
-  0.058 [1]	|■
-  0.059 [1]	|■
-  0.061 [22]	|■■■■■■■■■■■■■■■■■■■
-  0.062 [46]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.063 [27]	|■■■■■■■■■■■■■■■■■■■■■■■
-  0.065 [29]	|■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.066 [17]	|■■■■■■■■■■■■■■■
-  0.067 [7]	|■■■■■■
-  0.069 [3]	|■■■
-  0.070 [4]	|■■■
-  0.072 [2]	|■■
+  0.032 [1]	|
+  0.032 [27]	|■■■■■■■■
+  0.032 [139]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.032 [121]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.032 [21]	|■■■■■■
+  0.032 [1]	|
+  0.033 [0]	|
+  0.033 [1]	|
+  0.033 [0]	|
+  0.033 [0]	|
+  0.033 [1]	|
 
 
 Latency distribution:
-  10% in 0.0600 secs
-  25% in 0.0609 secs
-  50% in 0.0626 secs
-  75% in 0.0646 secs
-  90% in 0.0663 secs
-  95% in 0.0683 secs
-  99% in 0.0717 secs
+  10% in 0.0320 secs
+  25% in 0.0320 secs
+  50% in 0.0321 secs
+  75% in 0.0321 secs
+  90% in 0.0322 secs
+  95% in 0.0322 secs
+  99% in 0.0324 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0578 secs, 0.0717 secs
-  DNS-lookup:	0.0001 secs, 0.0001 secs, 0.0007 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0001 secs
-  resp wait:	0.0623 secs, 0.0572 secs, 0.0711 secs
-  resp read:	0.0001 secs, 0.0001 secs, 0.0002 secs
+  DNS+dialup:	0.0000 secs, 0.0318 secs, 0.0331 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0007 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0004 secs
+  resp wait:	0.0319 secs, 0.0317 secs, 0.0323 secs
+  resp read:	0.0001 secs, 0.0001 secs, 0.0001 secs
 
 Status code distribution:
-  [200]	159 responses
+  [200]	312 responses
 
 
 
-Running Tests: Bare Metal
+Prime computation
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    58  100    58    0     0   1933      0 --:--:-- --:--:-- --:--:--  1933
+hello:lroot:/prime:hello:lbranch:/prime:hello:lleaf:/prime
+Summary:
+  Total:	10.0124 secs
+  Slowest:	0.0285 secs
+  Fastest:	0.0179 secs
+  Average:	0.0229 secs
+  Requests/sec:	43.7459
+  
+  Total data:	25404 bytes
+  Size/request:	58 bytes
+
+Response time histogram:
+  0.018 [1]	|■
+  0.019 [18]	|■■■■■■■■■
+  0.020 [21]	|■■■■■■■■■■■
+  0.021 [55]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.022 [79]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.023 [66]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.024 [75]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.025 [67]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.026 [33]	|■■■■■■■■■■■■■■■■■
+  0.027 [16]	|■■■■■■■■
+  0.029 [7]	|■■■■
+
+
+Latency distribution:
+  10% in 0.0201 secs
+  25% in 0.0213 secs
+  50% in 0.0228 secs
+  75% in 0.0245 secs
+  90% in 0.0256 secs
+  95% in 0.0269 secs
+  99% in 0.0282 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0179 secs, 0.0285 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0007 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0001 secs
+  resp wait:	0.0227 secs, 0.0178 secs, 0.0284 secs
+  resp read:	0.0001 secs, 0.0001 secs, 0.0001 secs
+
+Status code distribution:
+  [200]	438 responses
+
+
+
+Running Tests: Host local containers
 Concurrency level: 3
 Runlength: 10s
 Baseline: Pure HTTP forwarding
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0011 secs
-  Slowest:	0.0060 secs
-  Fastest:	0.0008 secs
-  Average:	0.0010 secs
-  Requests/sec:	2927.5668
-  
-  Total data:	1171160 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.001 [1]	|
-  0.001 [28086]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [1077]	|■■
-  0.002 [106]	|
-  0.003 [0]	|
-  0.003 [1]	|
-  0.004 [1]	|
-  0.004 [1]	|
-  0.005 [0]	|
-  0.005 [2]	|
-  0.006 [4]	|
-
-
-Latency distribution:
-  10% in 0.0009 secs
-  25% in 0.0009 secs
-  50% in 0.0010 secs
-  75% in 0.0010 secs
-  90% in 0.0011 secs
-  95% in 0.0012 secs
-  99% in 0.0017 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0002 secs, 0.0008 secs, 0.0060 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0011 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0004 secs
-  resp wait:	0.0007 secs, 0.0005 secs, 0.0054 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0008 secs
-
-Status code distribution:
-  [200]	29279 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    833      0 --:--:-- --:--:-- --:--:--   833
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.0374 secs
-  Slowest:	0.0778 secs
-  Fastest:	0.0550 secs
-  Average:	0.0639 secs
-  Requests/sec:	46.9245
-  
-  Total data:	25905 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.055 [1]	|
-  0.057 [0]	|
-  0.060 [30]	|■■■■■■■■■■
-  0.062 [97]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.064 [121]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.066 [124]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.069 [79]	|■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.071 [14]	|■■■■■
-  0.073 [4]	|■
-  0.075 [0]	|
-  0.078 [1]	|
-
-
-Latency distribution:
-  10% in 0.0601 secs
-  25% in 0.0617 secs
-  50% in 0.0639 secs
-  75% in 0.0661 secs
-  90% in 0.0677 secs
-  95% in 0.0685 secs
-  99% in 0.0712 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0550 secs, 0.0778 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0008 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0001 secs
-  resp wait:	0.0634 secs, 0.0545 secs, 0.0772 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
-
-Status code distribution:
-  [200]	471 responses
-
-
-
-Running Tests: Bare Metal
-Concurrency level: 4
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0016 secs
-  Slowest:	0.0061 secs
-  Fastest:	0.0008 secs
-  Average:	0.0010 secs
-  Requests/sec:	3906.7573
-  
-  Total data:	1562960 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.001 [1]	|
-  0.001 [37031]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [1766]	|■■
-  0.002 [245]	|
-  0.003 [12]	|
-  0.003 [3]	|
-  0.004 [3]	|
-  0.004 [3]	|
-  0.005 [4]	|
-  0.006 [2]	|
-  0.006 [4]	|
-
-
-Latency distribution:
-  10% in 0.0009 secs
-  25% in 0.0009 secs
-  50% in 0.0010 secs
-  75% in 0.0010 secs
-  90% in 0.0012 secs
-  95% in 0.0013 secs
-  99% in 0.0018 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0002 secs, 0.0008 secs, 0.0061 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0009 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0007 secs
-  resp wait:	0.0007 secs, 0.0005 secs, 0.0058 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0007 secs
-
-Status code distribution:
-  [200]	39074 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    833      0 --:--:-- --:--:-- --:--:--   833
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.0602 secs
-  Slowest:	0.0870 secs
-  Fastest:	0.0587 secs
-  Average:	0.0748 secs
-  Requests/sec:	53.2793
-  
-  Total data:	29480 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.059 [1]	|
-  0.062 [0]	|
-  0.064 [1]	|
-  0.067 [2]	|
-  0.070 [37]	|■■■■■■■■■
-  0.073 [115]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.076 [161]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.079 [142]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.081 [62]	|■■■■■■■■■■■■■■■
-  0.084 [12]	|■■■
-  0.087 [3]	|■
-
-
-Latency distribution:
-  10% in 0.0703 secs
-  25% in 0.0724 secs
-  50% in 0.0746 secs
-  75% in 0.0772 secs
-  90% in 0.0793 secs
-  95% in 0.0801 secs
-  99% in 0.0831 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0587 secs, 0.0870 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0012 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0001 secs
-  resp wait:	0.0743 secs, 0.0582 secs, 0.0865 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0006 secs
-
-Status code distribution:
-  [200]	536 responses
-
-
-
-Running Tests: Bare Metal
-Concurrency level: 8
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    43  100    43    0     0   7166      0 --:--:-- --:--:-- --:--:--  7166
+hello:lroot:/:hello:lbranch:/:hello:lleaf:/
 Summary:
   Total:	10.0013 secs
-  Slowest:	0.0087 secs
-  Fastest:	0.0004 secs
-  Average:	0.0006 secs
-  Requests/sec:	13277.2310
+  Slowest:	0.0030 secs
+  Fastest:	0.0005 secs
+  Average:	0.0008 secs
+  Requests/sec:	3880.0077
   
-  Total data:	5311600 bytes
-  Size/request:	40 bytes
+  Total data:	1668615 bytes
+  Size/request:	43 bytes
 
 Response time histogram:
-  0.000 [1]	|
-  0.001 [131083]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [1590]	|
-  0.003 [61]	|
-  0.004 [29]	|
-  0.005 [8]	|
-  0.005 [0]	|
-  0.006 [1]	|
-  0.007 [14]	|
-  0.008 [2]	|
-  0.009 [1]	|
+  0.001 [1]	|
+  0.001 [22965]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.001 [14910]	|■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.001 [912]	|■■
+  0.002 [12]	|
+  0.002 [2]	|
+  0.002 [0]	|
+  0.002 [0]	|
+  0.003 [1]	|
+  0.003 [0]	|
+  0.003 [2]	|
 
 
 Latency distribution:
-  10% in 0.0005 secs
-  25% in 0.0005 secs
-  50% in 0.0006 secs
-  75% in 0.0006 secs
-  90% in 0.0008 secs
-  95% in 0.0010 secs
-  99% in 0.0012 secs
+  10% in 0.0007 secs
+  25% in 0.0007 secs
+  50% in 0.0008 secs
+  75% in 0.0008 secs
+  90% in 0.0009 secs
+  95% in 0.0009 secs
+  99% in 0.0011 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0001 secs, 0.0004 secs, 0.0087 secs
-  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0030 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0015 secs
-  resp wait:	0.0004 secs, 0.0002 secs, 0.0085 secs
-  resp read:	0.0000 secs, 0.0000 secs, 0.0017 secs
+  DNS+dialup:	0.0000 secs, 0.0005 secs, 0.0030 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0008 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0001 secs
+  resp wait:	0.0007 secs, 0.0005 secs, 0.0020 secs
+  resp read:	0.0000 secs, 0.0000 secs, 0.0001 secs
 
 Status code distribution:
-  [200]	132790 responses
+  [200]	38805 responses
 
 
 
-Baseline: Prime computation
+Baseline: 10ms x 3 Busywork
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    820      0 --:--:-- --:--:-- --:--:--   820
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    67  100    67    0     0   1810      0 --:--:-- --:--:-- --:--:--  1810
+hello:lroot:/busywork:hello:lbranch:/busywork:hello:lleaf:/busywork
 Summary:
-  Total:	10.0703 secs
-  Slowest:	0.1079 secs
-  Fastest:	0.0261 secs
-  Average:	0.0635 secs
-  Requests/sec:	125.7167
+  Total:	10.0181 secs
+  Slowest:	0.0422 secs
+  Fastest:	0.0311 secs
+  Average:	0.0320 secs
+  Requests/sec:	93.7304
   
-  Total data:	69630 bytes
-  Size/request:	55 bytes
+  Total data:	62913 bytes
+  Size/request:	67 bytes
 
 Response time histogram:
-  0.026 [1]	|
-  0.034 [46]	|■■■■■■■■■
-  0.042 [130]	|■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.051 [154]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.059 [166]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.067 [212]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.075 [205]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.083 [178]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.092 [105]	|■■■■■■■■■■■■■■■■■■■■
-  0.100 [53]	|■■■■■■■■■■
-  0.108 [16]	|■■■
+  0.031 [1]	|
+  0.032 [905]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.033 [23]	|■
+  0.034 [4]	|
+  0.036 [1]	|
+  0.037 [2]	|
+  0.038 [2]	|
+  0.039 [0]	|
+  0.040 [0]	|
+  0.041 [0]	|
+  0.042 [1]	|
 
 
 Latency distribution:
-  10% in 0.0397 secs
-  25% in 0.0498 secs
-  50% in 0.0642 secs
-  75% in 0.0764 secs
-  90% in 0.0859 secs
-  95% in 0.0923 secs
-  99% in 0.1017 secs
+  10% in 0.0318 secs
+  25% in 0.0319 secs
+  50% in 0.0320 secs
+  75% in 0.0320 secs
+  90% in 0.0321 secs
+  95% in 0.0322 secs
+  99% in 0.0336 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0261 secs, 0.1079 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0010 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0002 secs
-  resp wait:	0.0631 secs, 0.0257 secs, 0.1075 secs
+  DNS+dialup:	0.0000 secs, 0.0311 secs, 0.0422 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0007 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0001 secs
+  resp wait:	0.0319 secs, 0.0310 secs, 0.0421 secs
   resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
 
 Status code distribution:
-  [200]	1266 responses
+  [200]	939 responses
 
 
 
-Running Tests: Bare Metal
-Concurrency level: 40
-Runlength: 10s
-Baseline: Pure HTTP forwarding
+Prime computation
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    58  100    58    0     0   2148      0 --:--:-- --:--:-- --:--:--  2148
+hello:lroot:/prime:hello:lbranch:/prime:hello:lleaf:/prime
 Summary:
-  Total:	10.0026 secs
-  Slowest:	0.0130 secs
-  Fastest:	0.0004 secs
-  Average:	0.0020 secs
-  Requests/sec:	20026.0988
+  Total:	10.0199 secs
+  Slowest:	0.0324 secs
+  Fastest:	0.0166 secs
+  Average:	0.0231 secs
+  Requests/sec:	129.7419
   
-  Total data:	8012520 bytes
-  Size/request:	40 bytes
+  Total data:	75400 bytes
+  Size/request:	58 bytes
 
 Response time histogram:
-  0.000 [1]	|
-  0.002 [73301]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.003 [103163]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.004 [20855]	|■■■■■■■■
-  0.005 [2440]	|■
-  0.007 [414]	|
-  0.008 [83]	|
-  0.009 [35]	|
-  0.010 [14]	|
-  0.012 [4]	|
-  0.013 [3]	|
+  0.017 [1]	|
+  0.018 [45]	|■■■■■■
+  0.020 [157]	|■■■■■■■■■■■■■■■■■■■■■
+  0.021 [149]	|■■■■■■■■■■■■■■■■■■■■
+  0.023 [233]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.024 [241]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.026 [296]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.028 [132]	|■■■■■■■■■■■■■■■■■■
+  0.029 [35]	|■■■■■
+  0.031 [7]	|■
+  0.032 [4]	|■
 
 
 Latency distribution:
-  10% in 0.0011 secs
-  25% in 0.0014 secs
-  50% in 0.0019 secs
-  75% in 0.0024 secs
-  90% in 0.0030 secs
-  95% in 0.0034 secs
-  99% in 0.0044 secs
+  10% in 0.0189 secs
+  25% in 0.0211 secs
+  50% in 0.0234 secs
+  75% in 0.0253 secs
+  90% in 0.0265 secs
+  95% in 0.0273 secs
+  99% in 0.0290 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0002 secs, 0.0004 secs, 0.0130 secs
-  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0055 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0035 secs
-  resp wait:	0.0017 secs, 0.0002 secs, 0.0120 secs
-  resp read:	0.0000 secs, 0.0000 secs, 0.0051 secs
+  DNS+dialup:	0.0000 secs, 0.0166 secs, 0.0324 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0007 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0001 secs
+  resp wait:	0.0230 secs, 0.0164 secs, 0.0323 secs
+  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
 
 Status code distribution:
-  [200]	200313 responses
+  [200]	1300 responses
 
 
 
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    833      0 --:--:-- --:--:-- --:--:--   833
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.1027 secs
-  Slowest:	0.4131 secs
-  Fastest:	0.0352 secs
-  Average:	0.1272 secs
-  Requests/sec:	313.0832
-  
-  Total data:	173965 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.035 [1]	|
-  0.073 [407]	|■■■■■■■■■■■■■■■■
-  0.111 [1005]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.149 [944]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.186 [434]	|■■■■■■■■■■■■■■■■■
-  0.224 [182]	|■■■■■■■
-  0.262 [79]	|■■■
-  0.300 [56]	|■■
-  0.337 [31]	|■
-  0.375 [17]	|■
-  0.413 [7]	|
-
-
-Latency distribution:
-  10% in 0.0699 secs
-  25% in 0.0904 secs
-  50% in 0.1164 secs
-  75% in 0.1498 secs
-  90% in 0.1951 secs
-  95% in 0.2375 secs
-  99% in 0.3322 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0352 secs, 0.4131 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0022 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0009 secs
-  resp wait:	0.1267 secs, 0.0349 secs, 0.4126 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0003 secs
-
-Status code distribution:
-  [200]	3163 responses
-
-
-
-Running Tests: Bare Metal
-Concurrency level: 80
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0049 secs
-  Slowest:	0.0378 secs
-  Fastest:	0.0005 secs
-  Average:	0.0043 secs
-  Requests/sec:	18617.6295
-  
-  Total data:	7450680 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.000 [1]	|
-  0.004 [99797]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.008 [81690]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.012 [4310]	|■■
-  0.015 [341]	|
-  0.019 [82]	|
-  0.023 [25]	|
-  0.027 [7]	|
-  0.030 [9]	|
-  0.034 [4]	|
-  0.038 [1]	|
-
-
-Latency distribution:
-  10% in 0.0025 secs
-  25% in 0.0032 secs
-  50% in 0.0041 secs
-  75% in 0.0051 secs
-  90% in 0.0063 secs
-  95% in 0.0071 secs
-  99% in 0.0092 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0005 secs, 0.0378 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0074 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0081 secs
-  resp wait:	0.0038 secs, 0.0003 secs, 0.0280 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0082 secs
-
-Status code distribution:
-  [200]	186267 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    846      0 --:--:-- --:--:-- --:--:--   846
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.2192 secs
-  Slowest:	0.7720 secs
-  Fastest:	0.0407 secs
-  Average:	0.2422 secs
-  Requests/sec:	327.5217
-  
-  Total data:	184085 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.041 [1]	|
-  0.114 [201]	|■■■■■■■
-  0.187 [850]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.260 [1098]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.333 [655]	|■■■■■■■■■■■■■■■■■■■■■■■■
-  0.406 [308]	|■■■■■■■■■■■
-  0.480 [137]	|■■■■■
-  0.553 [57]	|■■
-  0.626 [20]	|■
-  0.699 [9]	|
-  0.772 [11]	|
-
-
-Latency distribution:
-  10% in 0.1309 secs
-  25% in 0.1718 secs
-  50% in 0.2252 secs
-  75% in 0.2933 secs
-  90% in 0.3721 secs
-  95% in 0.4309 secs
-  99% in 0.5698 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0004 secs, 0.0407 secs, 0.7720 secs
-  DNS-lookup:	0.0002 secs, 0.0000 secs, 0.0055 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0014 secs
-  resp wait:	0.2416 secs, 0.0404 secs, 0.7716 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0005 secs
-
-Status code distribution:
-  [200]	3347 responses
-
-
-
-Running Tests: Host local containers
+Running Tests: Containers
 Concurrency level: 1
 Runlength: 10s
 Baseline: Pure HTTP forwarding
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   5000      0 --:--:-- --:--:-- --:--:--  5000
-hello:root:/:hello:branch:/:hello:leaf:/
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    43  100    43    0     0   4777      0 --:--:-- --:--:-- --:--:--  4777
+hello:croot:/:hello:cbranch:/:hello:cleaf:/
 Summary:
-  Total:	10.0016 secs
-  Slowest:	0.0047 secs
-  Fastest:	0.0009 secs
+  Total:	10.0008 secs
+  Slowest:	0.0032 secs
+  Fastest:	0.0008 secs
   Average:	0.0016 secs
-  Requests/sec:	625.7995
+  Requests/sec:	610.0498
   
-  Total data:	250360 bytes
-  Size/request:	40 bytes
+  Total data:	262343 bytes
+  Size/request:	43 bytes
 
 Response time histogram:
   0.001 [1]	|
-  0.001 [78]	|■
-  0.002 [4044]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [2082]	|■■■■■■■■■■■■■■■■■■■■■
-  0.002 [45]	|
-  0.003 [7]	|
+  0.001 [31]	|
+  0.001 [94]	|■
+  0.001 [795]	|■■■■■■■■■
+  0.002 [3377]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.002 [1773]	|■■■■■■■■■■■■■■■■■■■■■
+  0.002 [27]	|
+  0.002 [2]	|
+  0.003 [0]	|
+  0.003 [0]	|
   0.003 [1]	|
-  0.004 [0]	|
-  0.004 [0]	|
-  0.004 [0]	|
-  0.005 [1]	|
 
 
 Latency distribution:
   10% in 0.0014 secs
   25% in 0.0015 secs
-  50% in 0.0016 secs
+  50% in 0.0017 secs
   75% in 0.0017 secs
   90% in 0.0018 secs
-  95% in 0.0018 secs
-  99% in 0.0020 secs
+  95% in 0.0019 secs
+  99% in 0.0019 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0009 secs, 0.0047 secs
-  DNS-lookup:	0.0001 secs, 0.0001 secs, 0.0008 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0003 secs
-  resp wait:	0.0011 secs, 0.0005 secs, 0.0043 secs
+  DNS+dialup:	0.0000 secs, 0.0008 secs, 0.0032 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0006 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0002 secs
+  resp wait:	0.0015 secs, 0.0007 secs, 0.0022 secs
   resp read:	0.0001 secs, 0.0000 secs, 0.0003 secs
 
 Status code distribution:
-  [200]	6259 responses
+  [200]	6101 responses
 
 
 
-Baseline: Prime computation
+Baseline: 10ms x 3 Busywork
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    647      0 --:--:-- --:--:-- --:--:--   647
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    67  100    67    0     0   1810      0 --:--:-- --:--:-- --:--:--  1810
+hello:croot:/busywork:hello:cbranch:/busywork:hello:cleaf:/busywork
 Summary:
-  Total:	10.0696 secs
-  Slowest:	0.0985 secs
-  Fastest:	0.0663 secs
-  Average:	0.0740 secs
-  Requests/sec:	13.5061
+  Total:	10.0079 secs
+  Slowest:	0.0336 secs
+  Fastest:	0.0320 secs
+  Average:	0.0323 secs
+  Requests/sec:	30.9756
   
-  Total data:	7480 bytes
-  Size/request:	55 bytes
+  Total data:	20770 bytes
+  Size/request:	67 bytes
 
 Response time histogram:
-  0.066 [1]	|■
-  0.070 [31]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.073 [35]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.076 [21]	|■■■■■■■■■■■■■■■■■■■■■■■■
-  0.079 [28]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.082 [11]	|■■■■■■■■■■■■■
-  0.086 [4]	|■■■■■
-  0.089 [4]	|■■■■■
-  0.092 [0]	|
-  0.095 [0]	|
-  0.098 [1]	|■
+  0.032 [1]	|
+  0.032 [53]	|■■■■■■■■■■■■■
+  0.032 [160]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.032 [87]	|■■■■■■■■■■■■■■■■■■■■■■
+  0.033 [6]	|■■
+  0.033 [2]	|■
+  0.033 [0]	|
+  0.033 [0]	|
+  0.033 [0]	|
+  0.033 [0]	|
+  0.034 [1]	|
 
 
 Latency distribution:
-  10% in 0.0685 secs
-  25% in 0.0697 secs
-  50% in 0.0729 secs
-  75% in 0.0776 secs
-  90% in 0.0810 secs
-  95% in 0.0845 secs
-  99% in 0.0985 secs
+  10% in 0.0321 secs
+  25% in 0.0322 secs
+  50% in 0.0323 secs
+  75% in 0.0324 secs
+  90% in 0.0324 secs
+  95% in 0.0325 secs
+  99% in 0.0326 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0004 secs, 0.0663 secs, 0.0985 secs
-  DNS-lookup:	0.0001 secs, 0.0001 secs, 0.0007 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0001 secs
-  resp wait:	0.0734 secs, 0.0657 secs, 0.0978 secs
-  resp read:	0.0001 secs, 0.0001 secs, 0.0002 secs
+  DNS+dialup:	0.0000 secs, 0.0320 secs, 0.0336 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0006 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0002 secs
+  resp wait:	0.0322 secs, 0.0319 secs, 0.0326 secs
+  resp read:	0.0001 secs, 0.0001 secs, 0.0001 secs
 
 Status code distribution:
-  [200]	136 responses
+  [200]	310 responses
 
 
 
-Running Tests: Host local containers
+Prime computation
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    58  100    58    0     0   1757      0 --:--:-- --:--:-- --:--:--  1757
+hello:croot:/prime:hello:cbranch:/prime:hello:cleaf:/prime
+Summary:
+  Total:	10.0126 secs
+  Slowest:	0.0285 secs
+  Fastest:	0.0184 secs
+  Average:	0.0230 secs
+  Requests/sec:	43.4452
+  
+  Total data:	25230 bytes
+  Size/request:	58 bytes
+
+Response time histogram:
+  0.018 [1]	|■
+  0.019 [24]	|■■■■■■■■■■■■■
+  0.020 [30]	|■■■■■■■■■■■■■■■■
+  0.021 [58]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.022 [63]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.023 [68]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.024 [75]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.025 [50]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.026 [43]	|■■■■■■■■■■■■■■■■■■■■■■■
+  0.028 [15]	|■■■■■■■■
+  0.029 [8]	|■■■■
+
+
+Latency distribution:
+  10% in 0.0202 secs
+  25% in 0.0212 secs
+  50% in 0.0231 secs
+  75% in 0.0246 secs
+  90% in 0.0261 secs
+  95% in 0.0266 secs
+  99% in 0.0281 secs
+
+Details (average, fastest, slowest):
+  DNS+dialup:	0.0000 secs, 0.0184 secs, 0.0285 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0008 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0002 secs
+  resp wait:	0.0229 secs, 0.0182 secs, 0.0284 secs
+  resp read:	0.0001 secs, 0.0001 secs, 0.0001 secs
+
+Status code distribution:
+  [200]	435 responses
+
+
+
+Running Tests: Containers
 Concurrency level: 3
 Runlength: 10s
 Baseline: Pure HTTP forwarding
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    43  100    43    0     0   6142      0 --:--:-- --:--:-- --:--:--  7166
+hello:croot:/:hello:cbranch:/:hello:cleaf:/
 Summary:
   Total:	10.0011 secs
-  Slowest:	0.0050 secs
+  Slowest:	0.0053 secs
   Fastest:	0.0006 secs
-  Average:	0.0011 secs
-  Requests/sec:	2828.1952
+  Average:	0.0009 secs
+  Requests/sec:	3275.2366
   
-  Total data:	1131400 bytes
-  Size/request:	40 bytes
+  Total data:	1408508 bytes
+  Size/request:	43 bytes
 
 Response time histogram:
   0.001 [1]	|
-  0.001 [18998]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [8575]	|■■■■■■■■■■■■■■■■■■
-  0.002 [578]	|■
-  0.002 [116]	|
-  0.003 [9]	|
+  0.001 [30819]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.002 [1917]	|■■
+  0.002 [6]	|
+  0.002 [3]	|
   0.003 [2]	|
-  0.004 [1]	|
-  0.004 [2]	|
+  0.003 [0]	|
+  0.004 [5]	|
+  0.004 [0]	|
   0.005 [1]	|
   0.005 [2]	|
 
 
 Latency distribution:
-  10% in 0.0009 secs
-  25% in 0.0010 secs
-  50% in 0.0010 secs
-  75% in 0.0011 secs
-  90% in 0.0012 secs
-  95% in 0.0013 secs
-  99% in 0.0018 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0002 secs, 0.0006 secs, 0.0050 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0008 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0004 secs
-  resp wait:	0.0007 secs, 0.0004 secs, 0.0046 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0008 secs
-
-Status code distribution:
-  [200]	28285 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    743      0 --:--:-- --:--:-- --:--:--   743
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.0011 secs
-  Slowest:	0.1032 secs
-  Fastest:	0.0749 secs
-  Average:	0.0898 secs
-  Requests/sec:	33.2963
-  
-  Total data:	18315 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.075 [1]	|
-  0.078 [4]	|■
-  0.081 [1]	|
-  0.083 [30]	|■■■■■■■
-  0.086 [23]	|■■■■■
-  0.089 [22]	|■■■■■
-  0.092 [170]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.095 [74]	|■■■■■■■■■■■■■■■■■
-  0.098 [5]	|■
-  0.100 [0]	|
-  0.103 [3]	|■
-
-
-Latency distribution:
-  10% in 0.0832 secs
-  25% in 0.0893 secs
-  50% in 0.0910 secs
-  75% in 0.0919 secs
-  90% in 0.0927 secs
-  95% in 0.0932 secs
-  99% in 0.1015 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0749 secs, 0.1032 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0010 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0002 secs
-  resp wait:	0.0893 secs, 0.0745 secs, 0.1027 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
-
-Status code distribution:
-  [200]	333 responses
-
-
-
-Running Tests: Host local containers
-Concurrency level: 4
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0019 secs
-  Slowest:	0.0044 secs
-  Fastest:	0.0006 secs
-  Average:	0.0010 secs
-  Requests/sec:	3866.9666
-  
-  Total data:	1547080 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.001 [1]	|
-  0.001 [20734]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.001 [16217]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [1129]	|■■
-  0.002 [502]	|■
-  0.003 [77]	|
-  0.003 [8]	|
-  0.003 [4]	|
-  0.004 [3]	|
-  0.004 [0]	|
-  0.004 [2]	|
-
-
-Latency distribution:
-  10% in 0.0009 secs
+  10% in 0.0008 secs
   25% in 0.0009 secs
-  50% in 0.0010 secs
-  75% in 0.0011 secs
-  90% in 0.0012 secs
-  95% in 0.0013 secs
-  99% in 0.0019 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0002 secs, 0.0006 secs, 0.0044 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0010 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0006 secs
-  resp wait:	0.0007 secs, 0.0005 secs, 0.0039 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0007 secs
-
-Status code distribution:
-  [200]	38677 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    733      0 --:--:-- --:--:-- --:--:--   733
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.0335 secs
-  Slowest:	0.1120 secs
-  Fastest:	0.0753 secs
-  Average:	0.0974 secs
-  Requests/sec:	41.0623
-  
-  Total data:	22660 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.075 [1]	|
-  0.079 [2]	|■
-  0.083 [0]	|
-  0.086 [8]	|■■■
-  0.090 [25]	|■■■■■■■■
-  0.094 [64]	|■■■■■■■■■■■■■■■■■■■■
-  0.097 [83]	|■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.101 [126]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.105 [81]	|■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.108 [13]	|■■■■
-  0.112 [9]	|■■■
-
-
-Latency distribution:
-  10% in 0.0907 secs
-  25% in 0.0938 secs
-  50% in 0.0981 secs
-  75% in 0.1010 secs
-  90% in 0.1035 secs
-  95% in 0.1047 secs
-  99% in 0.1099 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0753 secs, 0.1120 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0008 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0001 secs
-  resp wait:	0.0969 secs, 0.0749 secs, 0.1116 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
-
-Status code distribution:
-  [200]	412 responses
-
-
-
-Running Tests: Host local containers
-Concurrency level: 8
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0012 secs
-  Slowest:	0.0070 secs
-  Fastest:	0.0004 secs
-  Average:	0.0006 secs
-  Requests/sec:	12915.3271
-  
-  Total data:	5166760 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.000 [1]	|
-  0.001 [123116]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [5868]	|■■
-  0.002 [114]	|
-  0.003 [23]	|
-  0.004 [11]	|
-  0.004 [21]	|
-  0.005 [7]	|
-  0.006 [0]	|
-  0.006 [1]	|
-  0.007 [7]	|
-
-
-Latency distribution:
-  10% in 0.0005 secs
-  25% in 0.0005 secs
-  50% in 0.0006 secs
-  75% in 0.0007 secs
-  90% in 0.0008 secs
-  95% in 0.0010 secs
+  50% in 0.0009 secs
+  75% in 0.0009 secs
+  90% in 0.0010 secs
+  95% in 0.0011 secs
   99% in 0.0013 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0001 secs, 0.0004 secs, 0.0070 secs
-  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0012 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0013 secs
-  resp wait:	0.0005 secs, 0.0002 secs, 0.0069 secs
-  resp read:	0.0000 secs, 0.0000 secs, 0.0018 secs
+  DNS+dialup:	0.0000 secs, 0.0006 secs, 0.0053 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0007 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0001 secs
+  resp wait:	0.0008 secs, 0.0006 secs, 0.0052 secs
+  resp read:	0.0000 secs, 0.0000 secs, 0.0002 secs
 
 Status code distribution:
-  [200]	129169 responses
+  [200]	32756 responses
 
 
 
-Baseline: Prime computation
+Baseline: 10ms x 3 Busywork
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    679      0 --:--:-- --:--:-- --:--:--   679
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    67  100    67    0     0   1810      0 --:--:-- --:--:-- --:--:--  1810
+hello:croot:/busywork:hello:cbranch:/busywork:hello:cleaf:/busywork
 Summary:
-  Total:	10.0659 secs
-  Slowest:	0.1606 secs
-  Fastest:	0.0362 secs
-  Average:	0.1018 secs
-  Requests/sec:	78.4831
+  Total:	10.0208 secs
+  Slowest:	0.0447 secs
+  Fastest:	0.0316 secs
+  Average:	0.0324 secs
+  Requests/sec:	92.5077
   
-  Total data:	43450 bytes
-  Size/request:	55 bytes
+  Total data:	62109 bytes
+  Size/request:	67 bytes
 
 Response time histogram:
-  0.036 [1]	|
-  0.049 [21]	|■■■■■
-  0.061 [50]	|■■■■■■■■■■■
-  0.074 [40]	|■■■■■■■■■
-  0.086 [52]	|■■■■■■■■■■■
-  0.098 [134]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.111 [180]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.123 [185]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.136 [97]	|■■■■■■■■■■■■■■■■■■■■■
-  0.148 [23]	|■■■■■
-  0.161 [7]	|■■
+  0.032 [1]	|
+  0.033 [887]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.034 [5]	|
+  0.036 [6]	|
+  0.037 [15]	|■
+  0.038 [5]	|
+  0.039 [4]	|
+  0.041 [2]	|
+  0.042 [0]	|
+  0.043 [1]	|
+  0.045 [1]	|
 
 
 Latency distribution:
-  10% in 0.0636 secs
-  25% in 0.0899 secs
-  50% in 0.1061 secs
-  75% in 0.1177 secs
-  90% in 0.1298 secs
-  95% in 0.1345 secs
-  99% in 0.1510 secs
+  10% in 0.0320 secs
+  25% in 0.0321 secs
+  50% in 0.0322 secs
+  75% in 0.0324 secs
+  90% in 0.0325 secs
+  95% in 0.0328 secs
+  99% in 0.0376 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0362 secs, 0.1606 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0011 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0002 secs
-  resp wait:	0.1013 secs, 0.0357 secs, 0.1601 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
-
-Status code distribution:
-  [200]	790 responses
-
-
-
-Running Tests: Host local containers
-Concurrency level: 40
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0023 secs
-  Slowest:	0.0306 secs
-  Fastest:	0.0004 secs
-  Average:	0.0020 secs
-  Requests/sec:	20027.5436
-  
-  Total data:	8012880 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.000 [1]	|
-  0.003 [187375]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.006 [12474]	|■■■
-  0.009 [247]	|
-  0.012 [105]	|
-  0.015 [35]	|
-  0.018 [4]	|
-  0.022 [1]	|
-  0.025 [14]	|
-  0.028 [43]	|
-  0.031 [23]	|
-
-
-Latency distribution:
-  10% in 0.0011 secs
-  25% in 0.0014 secs
-  50% in 0.0018 secs
-  75% in 0.0024 secs
-  90% in 0.0031 secs
-  95% in 0.0035 secs
-  99% in 0.0047 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0002 secs, 0.0004 secs, 0.0306 secs
-  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0027 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0033 secs
-  resp wait:	0.0017 secs, 0.0002 secs, 0.0291 secs
-  resp read:	0.0000 secs, 0.0000 secs, 0.0068 secs
-
-Status code distribution:
-  [200]	200322 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    743      0 --:--:-- --:--:-- --:--:--   743
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.1534 secs
-  Slowest:	0.6212 secs
-  Fastest:	0.0604 secs
-  Average:	0.1959 secs
-  Requests/sec:	202.9856
-  
-  Total data:	113355 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.060 [1]	|
-  0.116 [205]	|■■■■■■■■■■■■
-  0.173 [705]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.229 [614]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.285 [327]	|■■■■■■■■■■■■■■■■■■■
-  0.341 [118]	|■■■■■■■
-  0.397 [50]	|■■■
-  0.453 [14]	|■
-  0.509 [13]	|■
-  0.565 [5]	|
-  0.621 [9]	|■
-
-
-Latency distribution:
-  10% in 0.1168 secs
-  25% in 0.1445 secs
-  50% in 0.1827 secs
-  75% in 0.2310 secs
-  90% in 0.2876 secs
-  95% in 0.3271 secs
-  99% in 0.4823 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0604 secs, 0.6212 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0041 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0019 secs
-  resp wait:	0.1954 secs, 0.0600 secs, 0.6178 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0003 secs
-
-Status code distribution:
-  [200]	2061 responses
-
-
-
-Running Tests: Host local containers
-Concurrency level: 80
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0023 secs
-  Slowest:	0.0681 secs
-  Fastest:	0.0004 secs
-  Average:	0.0044 secs
-  Requests/sec:	18191.7955
-  
-  Total data:	7278400 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.000 [1]	|
-  0.007 [168550]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.014 [12793]	|■■■
-  0.021 [395]	|
-  0.028 [38]	|
-  0.034 [28]	|
-  0.041 [57]	|
-  0.048 [59]	|
-  0.055 [16]	|
-  0.061 [18]	|
-  0.068 [5]	|
-
-
-Latency distribution:
-  10% in 0.0023 secs
-  25% in 0.0031 secs
-  50% in 0.0040 secs
-  75% in 0.0052 secs
-  90% in 0.0067 secs
-  95% in 0.0078 secs
-  99% in 0.0107 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0004 secs, 0.0681 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0070 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0090 secs
-  resp wait:	0.0039 secs, 0.0003 secs, 0.0675 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0099 secs
-
-Status code distribution:
-  [200]	181960 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    753      0 --:--:-- --:--:-- --:--:--   753
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.2753 secs
-  Slowest:	1.2581 secs
-  Fastest:	0.0625 secs
-  Average:	0.4114 secs
-  Requests/sec:	192.3054
-  
-  Total data:	108680 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.063 [1]	|
-  0.182 [247]	|■■■■■■■■■■■■■■■■■■■■■
-  0.302 [461]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.421 [448]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.541 [369]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.660 [199]	|■■■■■■■■■■■■■■■■■
-  0.780 [116]	|■■■■■■■■■■
-  0.899 [63]	|■■■■■
-  1.019 [39]	|■■■
-  1.139 [24]	|■■
-  1.258 [9]	|■
-
-
-Latency distribution:
-  10% in 0.1689 secs
-  25% in 0.2549 secs
-  50% in 0.3826 secs
-  75% in 0.5238 secs
-  90% in 0.7108 secs
-  95% in 0.8370 secs
-  99% in 1.0796 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0004 secs, 0.0625 secs, 1.2581 secs
-  DNS-lookup:	0.0002 secs, 0.0000 secs, 0.0044 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0012 secs
-  resp wait:	0.4109 secs, 0.0621 secs, 1.2561 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0003 secs
-
-Status code distribution:
-  [200]	1976 responses
-
-
-
-Running Tests: Containers
-Concurrency level: 1
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   4444      0 --:--:-- --:--:-- --:--:--  4444
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0013 secs
-  Slowest:	0.0037 secs
-  Fastest:	0.0010 secs
-  Average:	0.0019 secs
-  Requests/sec:	538.0308
-  
-  Total data:	215240 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.001 [1]	|
-  0.001 [123]	|■■
-  0.002 [436]	|■■■■■■
-  0.002 [1514]	|■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [2715]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [545]	|■■■■■■■■
-  0.003 [36]	|■
-  0.003 [4]	|
-  0.003 [3]	|
-  0.003 [2]	|
-  0.004 [2]	|
-
-
-Latency distribution:
-  10% in 0.0016 secs
-  25% in 0.0017 secs
-  50% in 0.0019 secs
-  75% in 0.0020 secs
-  90% in 0.0021 secs
-  95% in 0.0022 secs
-  99% in 0.0023 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0010 secs, 0.0037 secs
-  DNS-lookup:	0.0001 secs, 0.0001 secs, 0.0007 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0001 secs
-  resp wait:	0.0014 secs, 0.0006 secs, 0.0032 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
-
-Status code distribution:
-  [200]	5381 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    723      0 --:--:-- --:--:-- --:--:--   723
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.0237 secs
-  Slowest:	0.0913 secs
-  Fastest:	0.0654 secs
-  Average:	0.0740 secs
-  Requests/sec:	13.4681
-  
-  Total data:	7425 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.065 [1]	|■
-  0.068 [4]	|■■■■
-  0.071 [42]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.073 [31]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.076 [12]	|■■■■■■■■■■■
-  0.078 [20]	|■■■■■■■■■■■■■■■■■■■
-  0.081 [7]	|■■■■■■■
-  0.084 [9]	|■■■■■■■■■
-  0.086 [4]	|■■■■
-  0.089 [4]	|■■■■
-  0.091 [1]	|■
-
-
-Latency distribution:
-  10% in 0.0691 secs
-  25% in 0.0699 secs
-  50% in 0.0721 secs
-  75% in 0.0772 secs
-  90% in 0.0822 secs
-  95% in 0.0856 secs
-  99% in 0.0913 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0004 secs, 0.0654 secs, 0.0913 secs
-  DNS-lookup:	0.0001 secs, 0.0001 secs, 0.0006 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0002 secs
-  resp wait:	0.0733 secs, 0.0649 secs, 0.0909 secs
-  resp read:	0.0001 secs, 0.0001 secs, 0.0002 secs
-
-Status code distribution:
-  [200]	135 responses
-
-
-
-Running Tests: Containers
-Concurrency level: 3
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   5714      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0012 secs
-  Slowest:	0.0066 secs
-  Fastest:	0.0009 secs
-  Average:	0.0015 secs
-  Requests/sec:	2046.2626
-  
-  Total data:	818600 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.001 [1]	|
-  0.002 [14302]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [5728]	|■■■■■■■■■■■■■■■■
-  0.003 [412]	|■
-  0.003 [14]	|
-  0.004 [2]	|
-  0.004 [3]	|
-  0.005 [0]	|
-  0.005 [0]	|
-  0.006 [0]	|
-  0.007 [3]	|
-
-
-Latency distribution:
-  10% in 0.0012 secs
-  25% in 0.0013 secs
-  50% in 0.0014 secs
-  75% in 0.0015 secs
-  90% in 0.0017 secs
-  95% in 0.0019 secs
-  99% in 0.0022 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0002 secs, 0.0009 secs, 0.0066 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0009 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0003 secs
-  resp wait:	0.0011 secs, 0.0006 secs, 0.0061 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0006 secs
-
-Status code distribution:
-  [200]	20465 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    753      0 --:--:-- --:--:-- --:--:--   763
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.0480 secs
-  Slowest:	0.0983 secs
-  Fastest:	0.0748 secs
-  Average:	0.0897 secs
-  Requests/sec:	33.4394
-  
-  Total data:	18480 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.075 [1]	|
-  0.077 [0]	|
-  0.079 [3]	|■
-  0.082 [10]	|■■■■
-  0.084 [16]	|■■■■■■
-  0.087 [32]	|■■■■■■■■■■■■
-  0.089 [39]	|■■■■■■■■■■■■■■■
-  0.091 [107]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.094 [105]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.096 [16]	|■■■■■■
-  0.098 [7]	|■■■
-
-
-Latency distribution:
-  10% in 0.0849 secs
-  25% in 0.0879 secs
-  50% in 0.0906 secs
-  75% in 0.0918 secs
-  90% in 0.0930 secs
-  95% in 0.0943 secs
-  99% in 0.0981 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0748 secs, 0.0983 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0008 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0002 secs
-  resp wait:	0.0892 secs, 0.0745 secs, 0.0978 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
-
-Status code distribution:
-  [200]	336 responses
-
-
-
-Running Tests: Containers
-Concurrency level: 4
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0015 secs
-  Slowest:	0.0065 secs
-  Fastest:	0.0009 secs
-  Average:	0.0015 secs
-  Requests/sec:	2657.6954
-  
-  Total data:	1063240 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.001 [1]	|
-  0.001 [14867]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.002 [10432]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.003 [1152]	|■■■
-  0.003 [100]	|
-  0.004 [15]	|
-  0.004 [6]	|
-  0.005 [0]	|
-  0.005 [3]	|
-  0.006 [3]	|
-  0.006 [2]	|
-
-
-Latency distribution:
-  10% in 0.0013 secs
-  25% in 0.0013 secs
-  50% in 0.0014 secs
-  75% in 0.0016 secs
-  90% in 0.0018 secs
-  95% in 0.0020 secs
-  99% in 0.0024 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0002 secs, 0.0009 secs, 0.0065 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0010 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0006 secs
-  resp wait:	0.0011 secs, 0.0006 secs, 0.0054 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0005 secs
-
-Status code distribution:
-  [200]	26581 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    743      0 --:--:-- --:--:-- --:--:--   743
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.0496 secs
-  Slowest:	0.1130 secs
-  Fastest:	0.0823 secs
-  Average:	0.0995 secs
-  Requests/sec:	40.2004
-  
-  Total data:	22220 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.082 [1]	|
-  0.085 [1]	|
-  0.088 [3]	|■
-  0.092 [11]	|■■■
-  0.095 [53]	|■■■■■■■■■■■■■■■■■
-  0.098 [50]	|■■■■■■■■■■■■■■■■
-  0.101 [102]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.104 [128]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.107 [45]	|■■■■■■■■■■■■■■
-  0.110 [6]	|■■
-  0.113 [4]	|■
-
-
-Latency distribution:
-  10% in 0.0932 secs
-  25% in 0.0967 secs
-  50% in 0.1000 secs
-  75% in 0.1028 secs
-  90% in 0.1046 secs
-  95% in 0.1056 secs
-  99% in 0.1100 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0823 secs, 0.1130 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0009 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0001 secs
-  resp wait:	0.0990 secs, 0.0819 secs, 0.1125 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
-
-Status code distribution:
-  [200]	404 responses
-
-
-
-Running Tests: Containers
-Concurrency level: 8
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   5714      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0018 secs
-  Slowest:	0.0141 secs
-  Fastest:	0.0008 secs
-  Average:	0.0016 secs
-  Requests/sec:	4958.8287
-  
-  Total data:	1983880 bytes
-  Size/request:	40 bytes
-
-Response time histogram:
-  0.001 [1]	|
-  0.002 [41397]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.003 [7376]	|■■■■■■■
-  0.005 [722]	|■
-  0.006 [87]	|
-  0.007 [11]	|
-  0.009 [1]	|
-  0.010 [1]	|
-  0.011 [0]	|
-  0.013 [0]	|
-  0.014 [1]	|
-
-
-Latency distribution:
-  10% in 0.0011 secs
-  25% in 0.0012 secs
-  50% in 0.0014 secs
-  75% in 0.0019 secs
-  90% in 0.0024 secs
-  95% in 0.0028 secs
-  99% in 0.0038 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0002 secs, 0.0008 secs, 0.0141 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0015 secs
-  req write:	0.0000 secs, 0.0000 secs, 0.0011 secs
-  resp wait:	0.0013 secs, 0.0005 secs, 0.0139 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0028 secs
-
-Status code distribution:
-  [200]	49597 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    714      0 --:--:-- --:--:-- --:--:--   714
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.0750 secs
-  Slowest:	0.1568 secs
-  Fastest:	0.0354 secs
-  Average:	0.0883 secs
-  Requests/sec:	90.5208
-  
-  Total data:	50160 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.035 [1]	|
-  0.048 [98]	|■■■■■■■■■■■■■■■■■■■■■■■
-  0.060 [142]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.072 [63]	|■■■■■■■■■■■■■■■
-  0.084 [58]	|■■■■■■■■■■■■■■
-  0.096 [112]	|■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.108 [171]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.120 [146]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.133 [87]	|■■■■■■■■■■■■■■■■■■■■
-  0.145 [28]	|■■■■■■■
-  0.157 [6]	|■
-
-
-Latency distribution:
-  10% in 0.0466 secs
-  25% in 0.0585 secs
-  50% in 0.0947 secs
-  75% in 0.1110 secs
-  90% in 0.1251 secs
-  95% in 0.1302 secs
-  99% in 0.1437 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0354 secs, 0.1568 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0013 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0002 secs
-  resp wait:	0.0878 secs, 0.0349 secs, 0.1551 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0005 secs
-
-Status code distribution:
-  [200]	912 responses
-
-
-
-Running Tests: Containers
-Concurrency level: 40
-Runlength: 10s
-Baseline: Pure HTTP forwarding
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   5714      0 --:--:-- --:--:-- --:--:--  5714
-hello:root:/:hello:branch:/:hello:leaf:/
-Summary:
-  Total:	10.0426 secs
-  Slowest:	0.2777 secs
-  Fastest:	0.0010 secs
-  Average:	0.0227 secs
-  Requests/sec:	1758.2151
-  
-  Total data:	665400 bytes
-  Size/request:	37 bytes
-
-Response time histogram:
-  0.001 [1]	|
-  0.029 [14854]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.056 [1188]	|■■■
-  0.084 [562]	|■■
-  0.112 [509]	|■
-  0.139 [252]	|■
-  0.167 [141]	|
-  0.195 [77]	|
-  0.222 [45]	|
-  0.250 [22]	|
-  0.278 [6]	|
-
-
-Latency distribution:
-  10% in 0.0048 secs
-  25% in 0.0083 secs
-  50% in 0.0135 secs
-  75% in 0.0211 secs
-  90% in 0.0505 secs
-  95% in 0.0918 secs
-  99% in 0.1605 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0005 secs, 0.0010 secs, 0.2777 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0093 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0028 secs
-  resp wait:	0.0220 secs, 0.0004 secs, 0.2773 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0091 secs
-
-Status code distribution:
-  [200]	17657 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    723      0 --:--:-- --:--:-- --:--:--   723
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.2141 secs
-  Slowest:	0.4773 secs
-  Fastest:	0.0596 secs
-  Average:	0.1970 secs
-  Requests/sec:	201.2913
-  
-  Total data:	113080 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.060 [1]	|
-  0.101 [73]	|■■■■■
-  0.143 [330]	|■■■■■■■■■■■■■■■■■■■■■
-  0.185 [618]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.227 [490]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.268 [267]	|■■■■■■■■■■■■■■■■■
-  0.310 [151]	|■■■■■■■■■■
-  0.352 [63]	|■■■■
-  0.394 [39]	|■■■
-  0.436 [15]	|■
-  0.477 [9]	|■
-
-
-Latency distribution:
-  10% in 0.1246 secs
-  25% in 0.1517 secs
-  50% in 0.1860 secs
-  75% in 0.2309 secs
-  90% in 0.2821 secs
-  95% in 0.3210 secs
-  99% in 0.4114 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0003 secs, 0.0596 secs, 0.4773 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0033 secs
+  DNS+dialup:	0.0000 secs, 0.0316 secs, 0.0447 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0008 secs
   req write:	0.0000 secs, 0.0000 secs, 0.0002 secs
-  resp wait:	0.1965 secs, 0.0591 secs, 0.4758 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0005 secs
+  resp wait:	0.0323 secs, 0.0315 secs, 0.0446 secs
+  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
 
 Status code distribution:
-  [200]	2056 responses
+  [200]	927 responses
 
 
 
-Running Tests: Containers
-Concurrency level: 80
-Runlength: 10s
-Baseline: Pure HTTP forwarding
+Prime computation
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    40  100    40    0     0   6666      0 --:--:-- --:--:-- --:--:--  6666
-hello:root:/:hello:branch:/:hello:leaf:/
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    58  100    58    0     0   2071      0 --:--:-- --:--:-- --:--:--  2071
+hello:croot:/prime:hello:cbranch:/prime:hello:cleaf:/prime
 Summary:
-  Total:	10.0348 secs
-  Slowest:	0.6351 secs
-  Fastest:	0.0008 secs
-  Average:	0.0318 secs
-  Requests/sec:	2511.0614
+  Total:	10.0172 secs
+  Slowest:	0.0315 secs
+  Fastest:	0.0174 secs
+  Average:	0.0235 secs
+  Requests/sec:	127.2816
   
-  Total data:	968692 bytes
-  Size/request:	38 bytes
+  Total data:	73950 bytes
+  Size/request:	58 bytes
 
 Response time histogram:
-  0.001 [1]	|
-  0.064 [22736]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.128 [1195]	|■■
-  0.191 [534]	|■
-  0.255 [277]	|
-  0.318 [180]	|
-  0.381 [184]	|
-  0.445 [48]	|
-  0.508 [26]	|
-  0.572 [14]	|
-  0.635 [3]	|
+  0.017 [1]	|
+  0.019 [63]	|■■■■■■■■■
+  0.020 [107]	|■■■■■■■■■■■■■■■■
+  0.022 [132]	|■■■■■■■■■■■■■■■■■■■
+  0.023 [202]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.024 [259]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.026 [276]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+  0.027 [151]	|■■■■■■■■■■■■■■■■■■■■■■
+  0.029 [59]	|■■■■■■■■■
+  0.030 [21]	|■■■
+  0.031 [4]	|■
 
 
 Latency distribution:
-  10% in 0.0041 secs
-  25% in 0.0060 secs
-  50% in 0.0126 secs
-  75% in 0.0330 secs
-  90% in 0.0632 secs
-  95% in 0.1288 secs
-  99% in 0.3280 secs
+  10% in 0.0197 secs
+  25% in 0.0218 secs
+  50% in 0.0239 secs
+  75% in 0.0254 secs
+  90% in 0.0267 secs
+  95% in 0.0276 secs
+  99% in 0.0295 secs
 
 Details (average, fastest, slowest):
-  DNS+dialup:	0.0006 secs, 0.0008 secs, 0.6351 secs
-  DNS-lookup:	0.0001 secs, 0.0000 secs, 0.0069 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0140 secs
-  resp wait:	0.0310 secs, 0.0005 secs, 0.6347 secs
-  resp read:	0.0002 secs, 0.0000 secs, 0.0137 secs
+  DNS+dialup:	0.0000 secs, 0.0174 secs, 0.0315 secs
+  DNS-lookup:	0.0000 secs, 0.0000 secs, 0.0007 secs
+  req write:	0.0000 secs, 0.0000 secs, 0.0001 secs
+  resp wait:	0.0234 secs, 0.0173 secs, 0.0313 secs
+  resp read:	0.0001 secs, 0.0000 secs, 0.0002 secs
 
 Status code distribution:
-  [200]	25198 responses
-
-
-
-Baseline: Prime computation
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    55  100    55    0     0    733      0 --:--:-- --:--:-- --:--:--   733
-hello:root:/prime:hello:branch:/prime:hello:leaf:/prime
-Summary:
-  Total:	10.3472 secs
-  Slowest:	1.5210 secs
-  Fastest:	0.0555 secs
-  Average:	0.4051 secs
-  Requests/sec:	194.6427
-  
-  Total data:	110770 bytes
-  Size/request:	55 bytes
-
-Response time histogram:
-  0.055 [1]	|
-  0.202 [202]	|■■■■■■■■■■■
-  0.349 [706]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.495 [613]	|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-  0.642 [285]	|■■■■■■■■■■■■■■■■
-  0.788 [114]	|■■■■■■
-  0.935 [37]	|■■
-  1.081 [28]	|■■
-  1.228 [14]	|■
-  1.374 [11]	|■
-  1.521 [3]	|
-
-
-Latency distribution:
-  10% in 0.2018 secs
-  25% in 0.2683 secs
-  50% in 0.3692 secs
-  75% in 0.4927 secs
-  90% in 0.6468 secs
-  95% in 0.7729 secs
-  99% in 1.1374 secs
-
-Details (average, fastest, slowest):
-  DNS+dialup:	0.0005 secs, 0.0555 secs, 1.5210 secs
-  DNS-lookup:	0.0003 secs, 0.0000 secs, 0.0074 secs
-  req write:	0.0001 secs, 0.0000 secs, 0.0053 secs
-  resp wait:	0.4043 secs, 0.0551 secs, 1.5119 secs
-  resp read:	0.0001 secs, 0.0000 secs, 0.0003 secs
-
-Status code distribution:
-  [200]	2014 responses
+  [200]	1275 responses
 
 
 
