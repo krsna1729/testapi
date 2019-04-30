@@ -60,6 +60,9 @@ spec:
         - name: config
           configMap:
             name: stresscfg
+        - name: load
+          configMap:
+            name: loadcfg
       containers:
         - name: branch
           resources:
@@ -81,7 +84,11 @@ spec:
               value: "off"
             - name: JOBFILE
               value: /etc/testapi/config/stress.cfg
+            - name: LOADFILE
+              value: /etc/testapi/load/stress.cfg
           image: mcastelino/test-api-server:latest
           volumeMounts:
             - name: config
               mountPath: /etc/testapi/config
+            - name: load
+              mountPath: /etc/testapi/load

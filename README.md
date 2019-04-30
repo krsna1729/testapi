@@ -21,12 +21,13 @@ The interacting microservices can be launched as processes, containers or deploy
 | PRIME_MAX | The upper bound for the prime search when using the built in prime generator workload |
 | GOGC=off | To disable the golang garbage collector to reduce any variability induced by the golang runtime |
 | JOBFILE | stress-ng [job profile](https://github.com/ColinIanKing/stress-ng/tree/master/example-jobs) to simulate workload. This profile will be run when the service sees a request. The content of this file can be changed at runtime and the services will pick up the updated job profile |
+| LOADFILE | stress-ng job profile to simulate load. This profile will be run in parallel to the requests. This allows the user to simulate load on the system and its impact on the request |
 
 These environment variables can be used to stitch processes or containers across machines.
 
 The sample deployments below use a service chain of length 3, root->branch->leaf as an illustration. 
 
-## Exposed workload URIs
+## Exposed URIs
 
 The services expose multiple URI's each of which performs different types of work. The current set includes
 - `/` : This does no work. It only forwards the request down the chain and allows us to determine the cost of Networking and HTTP handling
@@ -34,11 +35,13 @@ The services expose multiple URI's each of which performs different types of wor
 - `/prime`: Computes all primes from `0` to `PRIME_MAX` using the [go implementation of Segmented Sieve](https://github.com/kavehmz/prime). On completion of computation it forwards the request down the chain This should be constant time CPU and Memory intensive computation. However in the real world this has not proven to be quite true.
 - `/fork`: Forks a child `date` process. This baselines the cost of forking.
 - `/stress-ng`: Forks a `stress-ng` process with the `JOBFILE` as the input profile. This can be used to model most workloads. `stress-ng` itself launches multiple processes to spin up each type of work. Hence the additional fork from golang does not really impact the latency variation.
+- `/load`: Forks a long running `stress-ng` process with the `LOADFILE` as the input profile. This launches this workload across the service chain and returns. The load itself continues to run for as long as it is configured to to run. The request returns immediately. This URI is used to trigger a constant long running work that run in parallel to the actual workload under test.
+- `/load-status`: Waits for the long running `load` to terminate. This request blocks till the load triggered by `load` terminates across the cluster.
 
 
 ### stress-ng profile
 
-The job profile should ideally be defined in terms of total operations that need to performed (vs time). This ensures that the exact same amount of work is done in response to each request. The default profile used is as follows
+The job profile should ideally be defined in terms of total operations that need to performed (vs time) in the case of the JOBFILE. This ensures that the exact same amount of work is done in response to each request. The default profile used is as follows
 
 ```
     metrics-brief
@@ -68,6 +71,19 @@ stress-ng: info:  [11806] vm                    1      0.00      0.00      0.00 
 stress-ng: info:  [11806] matrix                1      0.00      0.00      0.00       970.01         0.00
 stress-ng: info:  [11806] crypt                 1      0.01      0.01      0.00        68.28       100.00
 stress-ng: info:  [11806] af-alg                3      0.01      0.00      0.00       354.90         0.00
+```
+
+In the case of a the LOADFILE it should be setup to run for a time duration longer than the test run of the actual responsiveness measurement. The job described below runs for 20s, which is longer than the typical 10s run we use for testing responsiveness.
+
+```
+    metrics-brief 
+    timeout 20s 
+    cpu 3 
+    vm 3
+    vm-bytes 256M 
+    matrix 3 
+    crypt 3 
+    af-alg 3
 ```
 
 
@@ -516,3 +532,9 @@ firefox localhost:9090
 ### Dynamically updating the workload profile
 
 The configMap that contains the workload profile can be updated at runtime and the services will pick up the modified profile for the next request they service. This allows the dynamic reconfigration of the service workload profile at runtime without requiring the containers/processes to restart.
+
+# Results obtained from a real Kubernetes cluster
+
+Some results obtained under various scenarios in a real cluster are described in the [project wiki](https://github.com/mcastelino/testapi/wiki).
+
+https://github.com/mcastelino/testapi/wiki

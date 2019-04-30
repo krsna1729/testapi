@@ -23,6 +23,7 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -45,8 +46,18 @@ var (
 	downstreamURI string
 	serviceName   string
 	jobFile       string
+	loadFile      string
 	primeMax      uint64
 )
+
+// LoadCounter is safe to use concurrently.
+type LoadCounter struct {
+	requests  int
+	responses int
+	sync.RWMutex
+}
+
+var loadCount = LoadCounter{requests: 0, responses: 0}
 
 var (
 	// The latency in milliseconds
@@ -62,7 +73,7 @@ var (
 
 		// Latency in buckets: in ms
 		// TODO: Make this a runtime configuration vs build time
-		Aggregation: view.Distribution(1, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 35, 40, 45, 50, 100, 200, 400),
+		Aggregation: view.Distribution(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 35, 40, 45, 50, 100, 200, 400),
 		TagKeys:     []tag.Key{keyMethod}}
 
 	busyworkLatencyView = &view.View{
@@ -72,7 +83,7 @@ var (
 
 		// Latency in buckets: in ms
 		// TODO: Make this a runtime configuration vs build time
-		Aggregation: view.Distribution(1, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 35, 40, 45, 50, 100, 200, 400),
+		Aggregation: view.Distribution(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 30, 35, 40, 45, 50, 100, 200, 400),
 		TagKeys:     []tag.Key{keyMethod}}
 )
 
@@ -135,10 +146,50 @@ func jobHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	err = cmd.Wait()
 	if err != nil {
-		log.Printf("Command finished with error: %v", err)
+		log.Printf("Command finished with error: %v\n", err)
 	}
 
 	downstreamHandler("/stress-ng", w, req)
+}
+
+func loadHandler(w http.ResponseWriter, req *http.Request) {
+	if loadFile == "" {
+		return
+	}
+
+	go func() {
+		var cmd *exec.Cmd
+		cmd = exec.Command("stress-ng", "--job", loadFile)
+
+		loadCount.Lock()
+		loadCount.requests++
+		defer func() {
+			loadCount.responses++
+			loadCount.Unlock()
+		}()
+
+		err := cmd.Start()
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = cmd.Wait()
+		if err != nil {
+			log.Printf("Command finished with error: %v\n", err)
+		}
+	}()
+
+	downstreamHandler("/load", w, req)
+}
+
+func loadStatusHandler(w http.ResponseWriter, req *http.Request) {
+	//A bit unsafe but semu accurate
+	loadCount.RLock()
+	defer loadCount.RUnlock()
+	requests := loadCount.requests
+	responses := loadCount.responses
+
+	fmt.Fprintf(w, "status[%v/%v],", responses, requests)
+	downstreamHandler("/load-status", w, req)
 }
 
 var (
@@ -181,7 +232,7 @@ func primeHandler(w http.ResponseWriter, req *http.Request) {
 	if primeMax != 0 {
 		p := prime.Primes(primeMax)
 		if len(p) == 0 {
-			log.Printf("primes finished with error")
+			log.Printf("primes finished with error\n")
 		}
 	}
 
@@ -202,7 +253,7 @@ func forkHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	err = cmd.Wait()
 	if err != nil {
-		log.Printf("Command finished with error: %v", err)
+		log.Printf("Command finished with error: %v\n", err)
 	}
 
 	downstreamHandler("/fork", w, req)
@@ -220,6 +271,7 @@ func main() {
 	}
 
 	jobFile = os.Getenv("JOBFILE")
+	loadFile = os.Getenv("LOADFILE")
 
 	// e.g: http://localhost:8888/
 	upstreamURI = os.Getenv("UPSTREAM_URI")
@@ -300,6 +352,8 @@ func main() {
 	r.HandleFunc("/prime", primeHandler).Methods(http.MethodGet, http.MethodHead)
 	r.HandleFunc("/stress-ng", jobHandler).Methods(http.MethodGet, http.MethodHead)
 	r.HandleFunc("/fork", forkHandler).Methods(http.MethodGet, http.MethodHead)
+	r.HandleFunc("/load", loadHandler).Methods(http.MethodGet, http.MethodHead)
+	r.HandleFunc("/load-status", loadStatusHandler).Methods(http.MethodGet, http.MethodHead)
 
 	handler := &ochttp.Handler{ // add opencensus instrumentation
 		Handler:     r,

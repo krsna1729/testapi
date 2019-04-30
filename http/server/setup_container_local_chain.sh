@@ -1,5 +1,6 @@
 RUNTIME=runc
 PROFILE='/stress.cfg'
+LOAD='/load.cfg'
 MAX_PRIME='250000'
 TASK1="4-7"
 TASK2="8-11"
@@ -17,9 +18,11 @@ docker run --network apinet --name=root --hostname=lroot --runtime="$RUNTIME" -d
                                          -e METRICS_PORT='8887' \
                                          -p 8888:8888 \
                                          -e JOBFILE=$PROFILE \
+                                         -e LOADFILE=$LOAD \
                                          -e PRIME_MAX=$MAX_PRIME \
                                          -e GOGC=off \
                                          -v $(pwd)/stress.cfg:/stress.cfg \
+                                         -v $(pwd)/load.cfg:/load.cfg \
                                          mcastelino/test-api-server:latest
 
 docker run --network apinet --name=branch --hostname=lbranch --runtime="$RUNTIME" -d \
@@ -30,9 +33,11 @@ docker run --network apinet --name=branch --hostname=lbranch --runtime="$RUNTIME
                                          -e REPORTER_URI='http://192.168.211.2:9411/api/v2/spans' \
                                          -e METRICS_PORT='8886' \
                                          -e JOBFILE=$PROFILE \
+                                         -e LOADFILE=$LOAD \
                                          -e PRIME_MAX=$MAX_PRIME \
                                          -e GOGC=off \
                                          -v $(pwd)/stress.cfg:/stress.cfg \
+                                         -v $(pwd)/load.cfg:/load.cfg \
                                          mcastelino/test-api-server:latest
 
 docker run --network apinet --name=leaf --hostname=lleaf --runtime="$RUNTIME" -d \
@@ -42,7 +47,9 @@ docker run --network apinet --name=leaf --hostname=lleaf --runtime="$RUNTIME" -d
                                          -e REPORTER_URI='http://192.168.211.2:9411/api/v2/spans' \
                                          -e METRICS_PORT='8885' \
                                          -e JOBFILE=$PROFILE \
+                                         -e LOADFILE=$LOAD \
                                          -e PRIME_MAX=$MAX_PRIME \
                                          -e GOGC=off \
                                          -v $(pwd)/stress.cfg:/stress.cfg \
+                                         -v $(pwd)/load.cfg:/load.cfg \
                                          mcastelino/test-api-server:latest
